@@ -32,6 +32,7 @@
     "file-saver": "2.0.2",
     "flatpickr": "4.6.3",
     "history": "5.0.0",
+    "html-table-to-json": "^1.0.0",
     "html-to-draftjs": "1.5.0",
     "intl-messageformat": "7.8.4",
     "jquery": "3.5.1",

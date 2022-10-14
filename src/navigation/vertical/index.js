@@ -17,38 +17,38 @@ export default [
                 id: 'myAccount',
                 title: 'My account',
                 icon: <Circle/>,
-                navLink: '/admin/my-account'
+                navLink: '/my-account'
             },
             {
                 id: 'manageAccounts',
                 title: 'Manage accounts',
                 icon: <Circle/>,
-                navLink: '/admin/manage-accounts'
+                navLink: '/manage-accounts'
             }
         ]
     },
     {
-        id: 'Tables',
-        title: 'Tables',
+        id: 'datatable',
+        title: 'Datatable',
         icon: <Table size={20}/>,
         children: [
             {
                 id: 'categories',
                 title: 'Categories',
                 icon: <Circle/>,
-                navLink: '/admin/categories'
+                navLink: '/categories'
             },
             {
-                id: 'htmlData',
-                title: 'Data',
+                id: 'datatable',
+                title: 'Datatable',
                 icon: <Circle/>,
-                navLink: '/admin/data'
+                navLink: '/datatable'
             }
         ]
     },
     {
         id: 'settings',
-        title: 'Settings',
+        title: 'settings',
         icon: <Settings size={20}/>,
         navLink: '/settings',
         children: [
@@ -59,10 +59,10 @@ export default [
                 navLink: '/settings/site-name'
             },
             {
-                id: 'siteLogo',
-                title: 'Site logo',
+                id: 'logo',
+                title: 'Logo',
                 icon: <Circle/>,
-                navLink: '/settings/site-logo'
+                navLink: '/settings/logo'
             },
             {
                 id: 'favicon',

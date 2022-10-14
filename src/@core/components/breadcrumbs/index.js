@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 // ** Third Party Components
 import Proptypes from 'prop-types'
-import { Grid, CheckSquare, MessageSquare, Mail, Calendar } from 'react-feather'
+import { Grid, CheckSquare, MessageSquare, Mail, Calendar, Table, Package } from 'react-feather'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -61,21 +61,21 @@ const BreadCrumbs = props => {
             </DropdownToggle>
             <DropdownMenu tag='ul' right>
               <DropdownItem tag={Link} to='/apps/chat'>
-                <CheckSquare className='mr-1' size={14} />
-                <span className='align-middle'>Todo</span>
+                <Table className='mr-1' size={14} />
+                <span className='align-middle'>Html render</span>
               </DropdownItem>
               <DropdownItem tag={Link} to='/apps/chat'>
-                <MessageSquare className='mr-1' size={14} />
-                <span className='align-middle'>Chat</span>
+                <Package className='mr-1' size={14} />
+                <span className='align-middle'>Inventory</span>
               </DropdownItem>
               <DropdownItem tag={Link} to='/apps/email'>
                 <Mail className='mr-1' size={14} />
-                <span className='align-middle'>Email</span>
+                <span className='align-middle'>App 3</span>
               </DropdownItem>
-              <DropdownItem tag={Link} to='/apps/calendar'>
-                <Calendar className='mr-1' size={14} />
-                <span className='align-middle'>Calendar</span>
-              </DropdownItem>
+              {/*<DropdownItem tag={Link} to='/apps/calendar'>*/}
+              {/*  <Calendar className='mr-1' size={14} />*/}
+              {/*  <span className='align-middle'>Calendar</span>*/}
+              {/*</DropdownItem>*/}
             </DropdownMenu>
           </UncontrolledButtonDropdown>
         </div>
