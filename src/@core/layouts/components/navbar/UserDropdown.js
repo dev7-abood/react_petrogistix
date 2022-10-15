@@ -46,22 +46,22 @@ const UserDropdown = () => {
         <Avatar img={userAvatar} imgHeight='40' imgWidth='40' status='online' />
       </DropdownToggle>
       <DropdownMenu right>
-        <DropdownItem tag={Link} to='#' onClick={e => e.preventDefault()}>
+        <DropdownItem tag={Link} to='/my-account' onClick={e => e.preventDefault()}>
           <User size={14} className='mr-75' />
           <span className='align-middle'>Profile</span>
         </DropdownItem>
-        <DropdownItem tag={Link} to='#' onClick={e => e.preventDefault()}>
-          <Mail size={14} className='mr-75' />
-          <span className='align-middle'>Inbox</span>
-        </DropdownItem>
-        <DropdownItem tag={Link} to='#' onClick={e => e.preventDefault()}>
-          <CheckSquare size={14} className='mr-75' />
-          <span className='align-middle'>Tasks</span>
-        </DropdownItem>
-        <DropdownItem tag={Link} to='#' onClick={e => e.preventDefault()}>
-          <MessageSquare size={14} className='mr-75' />
-          <span className='align-middle'>Chats</span>
-        </DropdownItem>
+        {/*<DropdownItem tag={Link} to='#' onClick={e => e.preventDefault()}>*/}
+        {/*  <Mail size={14} className='mr-75' />*/}
+        {/*  <span className='align-middle'>Inbox</span>*/}
+        {/*</DropdownItem>*/}
+        {/*<DropdownItem tag={Link} to='#' onClick={e => e.preventDefault()}>*/}
+        {/*  <CheckSquare size={14} className='mr-75' />*/}
+        {/*  <span className='align-middle'>Tasks</span>*/}
+        {/*</DropdownItem>*/}
+        {/*<DropdownItem tag={Link} to='#' onClick={e => e.preventDefault()}>*/}
+        {/*  <MessageSquare size={14} className='mr-75' />*/}
+        {/*  <span className='align-middle'>Chats</span>*/}
+        {/*</DropdownItem>*/}
         <DropdownItem tag={Link} to='/login' onClick={() => dispatch(handleLogout())}>
           <Power size={14} className='mr-75' />
           <span className='align-middle'>Logout</span>

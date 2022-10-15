@@ -37,6 +37,15 @@ const Routes = [
         component: lazy(() => import('../../views/users/my-account'))
     },
     {
+        path: '/manage-accounts',
+        component: lazy(() => import('../../views/users/manage-accounts/list')),
+        exact: true
+    },
+    {
+        path: '/manage-accounts/edit/:id',
+        component: lazy(() => import('../../views/users/manage-accounts/edit')),
+    },
+    {
         path: '/login',
         component: lazy(() => import('../../views/Login')),
         layout: 'BlankLayout',

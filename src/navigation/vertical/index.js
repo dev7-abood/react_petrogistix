@@ -11,7 +11,6 @@ export default [
         id: 'users',
         title: 'Users',
         icon: <Users size={20}/>,
-        navLink: '/users',
         children: [
             {
                 id: 'myAccount',
