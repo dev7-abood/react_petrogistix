@@ -13,12 +13,16 @@ const Routes = [
         component: lazy(() => import('../../views/Home'))
     },
     {
-        path: '/categories',
-        component: lazy(() => import('../../views/table-render/categories'))
+        path: '/collections',
+        component: lazy(() => import('../../views/data-extraction/index'))
     },
     {
-        path: '/datatable',
-        component: lazy(() => import('../../views/table-render/datatable'))
+        path: '/data-extraction',
+        component: lazy(() => import('../../views/data-extraction/index'))
+    },
+    {
+        path: '/html-files',
+        component: lazy(() => import('../../views/data-extraction/html-files'))
     },
     {
         path: '/settings/logo',

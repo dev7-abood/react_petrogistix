@@ -27,23 +27,10 @@ export default [
         ]
     },
     {
-        id: 'datatable',
-        title: 'Datatable',
+        id: 'collection',
+        title: 'Collections',
         icon: <Table size={20}/>,
-        children: [
-            {
-                id: 'categories',
-                title: 'Categories',
-                icon: <Circle/>,
-                navLink: '/categories'
-            },
-            {
-                id: 'datatable',
-                title: 'Datatable',
-                icon: <Circle/>,
-                navLink: '/datatable'
-            }
-        ]
+        navLink: '/collections',
     },
     {
         id: 'settings',

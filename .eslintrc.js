@@ -31,7 +31,7 @@ module.exports = {
     'no-use-before-define': 'error',
 
     // Stylistic Issues
-    'array-bracket-newline': ['error', { multiline: true, minItems: null }],
+    'array-bracket-newline': ['off', { multiline: true, minItems: null }],
     'array-bracket-spacing': 'error',
     'brace-style': ['error', '1tbs', { allowSingleLine: true }],
     'block-spacing': 'error',
@@ -39,7 +39,7 @@ module.exports = {
     'comma-spacing': 'error',
     'comma-style': 'error',
     'computed-property-spacing': 'error',
-    'func-call-spacing': 'error',
+    'func-call-spacing': 'off',
     'implicit-arrow-linebreak': ['error', 'beside'],
     // indent: ['error', 4],
     'keyword-spacing': 'error',
@@ -52,7 +52,7 @@ module.exports = {
     'no-whitespace-before-property': 'error',
     'nonblock-statement-body-position': 'error',
     'object-property-newline': ['error', { allowAllPropertiesOnSameLine: true }],
-    'quote-props': ['error', 'as-needed'],
+    'quote-props': ['off', 'as-needed'],
     // quotes: ['error', 'prefer-single'],
     semi: ['off', 'never'],
     'semi-spacing': 'off',

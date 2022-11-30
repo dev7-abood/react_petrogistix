@@ -35,8 +35,14 @@ import './assets/scss/style.scss'
 // ** Service Worker
 import * as serviceWorker from './serviceWorker'
 
+import axios from "axios"
+
 // ** Lazy load app
 const LazyApp = lazy(() => import('./App'))
+
+import env from '@src/env.json'
+
+axios.defaults.baseURL = env.API_BASE_URL
 
 ReactDOM.render(
   <Provider store={store}>

@@ -55,26 +55,16 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
     <Sidebar
       size='lg'
       open={open}
-      title='New html file'
+      title='Upload File'
       headerClassName='mb-1'
       contentClassName='pt-0'
       toggleSidebar={toggleSidebar}
     >
       <Form>
         <FormGroup>
-          <Label for='file'>Upload html file<span className='text-danger'>*</span></Label>
+          <Label for='file'>File<span className='text-danger'>*</span></Label>
           <Input type='file' id='file' name='file'/>
-        </FormGroup>
-        <FormGroup>
-          <Label for='category'>Select a category</Label>
-          <Input type='select' id='category' name='user-role' onChange={e => setRole(e.target.value)}>
-            <option value=''></option>
-            <option value='subscriber'>Subscriber</option>
-            <option value='editor'>Editor</option>
-            <option value='maintainer'>Maintainer</option>
-            <option value='author'>Author</option>
-            <option value='admin'>Admin</option>
-          </Input>
+          <small>File type zip</small>
         </FormGroup>
         <FormGroup>
           <Label for='note'>Note</Label>

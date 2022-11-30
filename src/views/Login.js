@@ -63,7 +63,7 @@ const Login = () => {
               </g>
             </g>
           </svg>
-          <h2 className='brand-text text-primary ml-1'>Vuexy</h2>
+          <h2 className='brand-text text-primary ml-1 text-upper'>Petrogistix</h2>
         </Link>
         <Col className='d-none d-lg-flex align-items-center p-5' lg='8' sm='12'>
           <div className='w-100 d-lg-flex align-items-center justify-content-center px-5'>
@@ -72,8 +72,8 @@ const Login = () => {
         </Col>
         <Col className='d-flex align-items-center auth-bg px-2 p-lg-5' lg='4' sm='12'>
           <Col className='px-xl-2 mx-auto' sm='8' md='6' lg='12'>
-            <CardTitle tag='h2' className='font-weight-bold mb-1'>
-              Welcome to Vuexy! 👋
+            <CardTitle tag='h2' className='font-weight-bold mb-1 text-upper'>
+              Welcome to Petrogistix! 👋
             </CardTitle>
             <CardText className='mb-2'>Please sign-in to your account and start the adventure</CardText>
             <Form className='auth-login-form mt-2' onSubmit={e => e.preventDefault()}>
@@ -101,29 +101,6 @@ const Login = () => {
                 Sign in
               </Button.Ripple>
             </Form>
-            <p className='text-center mt-2'>
-              <span className='mr-25'>New on our platform?</span>
-              <Link to='/'>
-                <span>Create an account</span>
-              </Link>
-            </p>
-            <div className='divider my-2'>
-              <div className='divider-text'>or</div>
-            </div>
-            <div className='auth-footer-btn d-flex justify-content-center'>
-              <Button.Ripple color='facebook'>
-                <Facebook size={14} />
-              </Button.Ripple>
-              <Button.Ripple color='twitter'>
-                <Twitter size={14} />
-              </Button.Ripple>
-              <Button.Ripple color='google'>
-                <Mail size={14} />
-              </Button.Ripple>
-              <Button.Ripple className='mr-0' color='github'>
-                <GitHub size={14} />
-              </Button.Ripple>
-            </div>
           </Col>
         </Col>
       </Row>
