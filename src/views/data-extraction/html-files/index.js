@@ -11,8 +11,10 @@ import Datatable from './Datatable'
 
 // ** Styles
 import '@styles/react/libs/tables/react-dataTable-component.scss'
+import { useParams } from "react-router-dom";
 
 const HtmlFiles = () => {
+    const { id } = useParams();
     return (
         <>
             <Breadcrumbs breadCrumbTitle='Data' breadCrumbParent='Home' breadCrumbActive='Data'/>
@@ -20,7 +22,7 @@ const HtmlFiles = () => {
                 <Filter/>
             </div>
             <div>
-                <Datatable/>
+                <Datatable collection_id={id}/>
             </div>
         </>
     )

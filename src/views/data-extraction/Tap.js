@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import {TabContent, TabPane, Nav, NavItem, NavLink} from 'reactstrap'
 import Datatable from "./collections/Datatable";
-// import FormCollection from "./collections/CollectionForm";
+import FormCollection from "./collections/CollectionForm";
 
 const TabsBasic = _ => {
 
@@ -42,7 +42,7 @@ const TabsBasic = _ => {
                     <Datatable/>
                 </TabPane>
                 <TabPane tabId='2'>
-                    {/*<FormCollection/>*/}
+                    <FormCollection/>
                 </TabPane>
             </TabContent>
         </>

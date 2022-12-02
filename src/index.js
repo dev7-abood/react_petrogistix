@@ -44,6 +44,34 @@ import env from '@src/env.json'
 
 axios.defaults.baseURL = env.API_BASE_URL
 
+// Add a request interceptor
+axios.interceptors.request.use(config => {
+
+    if (localStorage.getItem('access_tk')) {
+        config.headers['Accept'] = 'application/json'
+
+        config.headers.Authorization = `Bearer ${localStorage.getItem('access_tk')}`
+        console.log('Intercepting the request before sending it', config)
+        return config // nxt jwt.php
+    }
+
+}, error => {
+    console.log("Request error: ", error)
+    return Promise.reject(error)
+})
+
+// Add a response interceptor
+axios.interceptors.response.use(response => {
+    // Any status code that lie within the range of 2xx cause this function to trigger
+    // Do something with response data
+    console.log(response)
+    return response;
+}, function (error) {
+    // Any status codes that falls outside the range of 2xx cause this function to trigger
+    // Do something with response error
+    return Promise.reject(error);
+});
+
 ReactDOM.render(
   <Provider store={store}>
     <Suspense fallback={<Spinner />}>

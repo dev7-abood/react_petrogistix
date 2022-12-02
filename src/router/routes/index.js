@@ -17,12 +17,8 @@ const Routes = [
         component: lazy(() => import('../../views/data-extraction/index'))
     },
     {
-        path: '/data-extraction',
-        component: lazy(() => import('../../views/data-extraction/index'))
-    },
-    {
-        path: '/html-files',
-        component: lazy(() => import('../../views/data-extraction/html-files'))
+        path: '/html-files/:id',
+        component: lazy(() => import('../../views/data-extraction/html-files/index'))
     },
     {
         path: '/settings/logo',

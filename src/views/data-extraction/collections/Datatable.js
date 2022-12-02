@@ -70,7 +70,7 @@ const DataTableServerSide = () => {
       selector: '',
       cell: row => (
           <div className='column-action d-flex align-items-center'>
-            <Link to={`/html-files`} id={`pw-tooltip-${row.id}`}>
+            <Link to={`/html-files/${row._id['$oid']}`} id={`pw-tooltip-${row.id}`}>
               <Eye size={17} className='mx-1' />
             </Link>
             <UncontrolledTooltip placement='top' target={`pw-tooltip-${row.id}`}>
@@ -110,7 +110,6 @@ const DataTableServerSide = () => {
   const onChangeRowsPerPage = limit => {
     setLimit(`&limit=${limit}`)
   }
-
 
   return (
     <>

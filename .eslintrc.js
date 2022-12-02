@@ -51,7 +51,7 @@ module.exports = {
     'no-unneeded-ternary': 'error',
     'no-whitespace-before-property': 'error',
     'nonblock-statement-body-position': 'error',
-    'object-property-newline': ['error', { allowAllPropertiesOnSameLine: true }],
+    'object-property-newline': ['off', { allowAllPropertiesOnSameLine: true }],
     'quote-props': ['off', 'as-needed'],
     // quotes: ['error', 'prefer-single'],
     semi: ['off', 'never'],
