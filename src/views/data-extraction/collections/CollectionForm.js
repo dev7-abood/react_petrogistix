@@ -15,6 +15,7 @@ const CollectionForm = _ => {
     const [progressAnimated, setProgressAnimated] = useState(true)
     const [progressColor, setProgressColor] = useState('primary')
     const [progressKey, setProgressKey] = useState(null)
+    const [progressMeg, setProgressMeg] = useState('On proposes...')
 
     const SignupSchema = yup.object().shape({
         note: yup.string(),
@@ -39,13 +40,13 @@ const CollectionForm = _ => {
             const checkProcessStatus = setInterval(_ => {
                 (async _ => {
                     const res = await axios.get(`/data-exstr/collection/check_process_status/?format=json&process_key=${progressKey}`)
-                    console.log(res.data)
                     if (res.data.process_status.on_process === false) {
                         setProgressAnimated(false)
                         setProgressColor('success')
+                        setProgressMeg('Done')
                     }
                 })()
-            }, 5000)
+            }, 15000)
 
             if (progressAnimated === false) {
                 clearInterval(checkProcessStatus);
@@ -67,7 +68,6 @@ const CollectionForm = _ => {
                         setOnUploadProgress(process)
                         if (process === 100) {
                             setProgressAnimated(true)
-                            setProgressColor('success')
                         }
                     }, headers: {
                         'Content-Type': 'multipart/form-data'
@@ -75,7 +75,7 @@ const CollectionForm = _ => {
                 })
                 setProgressKey(res.data.data.process_key)
             } catch (err) {
-                console.log(err)
+                // console.log(err)
             }
         })()
     }
@@ -127,8 +127,7 @@ const CollectionForm = _ => {
                     <br/>
                     <Button color='primary' outline={true}>Submit</Button>
                     <div className='my-2'>
-                        <Progress color={progressColor} animated={progressAnimated} value={onUploadProgress}>On
-                            proposes...</Progress>
+                        <Progress color={progressColor} animated={progressAnimated} value={onUploadProgress}>{progressMeg}</Progress>
                     </div>
                 </Form>
             </CardBody>
