@@ -30,7 +30,7 @@ import DataTable from 'react-data-table-component'
 import axios from 'axios'
 
 import env from '@src/env.json'
-
+import '@styles/react/libs/tables/react-dataTable-component.scss'
 const DataTableServerSide = () => {
   // ** Store Vars
 
@@ -136,6 +136,7 @@ const DataTableServerSide = () => {
         <DataTable
             component="nav"
             noHeader
+            className='react-dataTable'
             data={data.data}
             columns={columns}
             count={data.current_page}

@@ -10,19 +10,38 @@ import Filter from "./Filter";
 import Datatable from './Datatable'
 
 // ** Styles
-import '@styles/react/libs/tables/react-dataTable-component.scss'
+
 import { useParams } from "react-router-dom";
 
-const HtmlFiles = () => {
+import { useState } from 'react'
+
+const HtmlFiles = _ => {
+
     const { id } = useParams();
+    const [collectionId, setCollectionId] = useState(id)
+    const [selectYear, setSelectYear] = useState('')
+    const [search, setSearch] = useState('')
+    const [collectionName, setCollectionName] = useState('')
+
     return (
         <>
             <Breadcrumbs breadCrumbTitle='Data' breadCrumbParent='Home' breadCrumbActive='Data'/>
             <div>
-                <Filter/>
+                <Filter
+                    collectionId={collectionId}
+                    setCollectionId={setCollectionId}
+                    setSelectYear={setSelectYear}
+                    setSearch={setSearch}
+                    setCollectionName={setCollectionName}
+                />
             </div>
             <div>
-                <Datatable collection_id={id}/>
+                <Datatable
+                    collection_id={collectionId}
+                    selectYear={selectYear}
+                    search={search}
+                    collectionName={collectionName}
+                />
             </div>
         </>
     )

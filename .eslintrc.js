@@ -56,7 +56,7 @@ module.exports = {
     // quotes: ['error', 'prefer-single'],
     semi: ['off', 'never'],
     'semi-spacing': 'off',
-    'space-before-blocks': 'error',
+    'space-before-blocks': 'off',
     // 'space-before-function-paren': 'error',
     'space-in-parens': 'error',
     'space-infix-ops': 'error',
