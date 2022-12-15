@@ -21,6 +21,7 @@ const UserInfoTab = () => {
   const { register, errors, handleSubmit, control, setValue, trigger } = useForm({
     defaultValues: { gender: 'gender-female', dob: null }
   })
+
   return (
     <Form
       onSubmit={handleSubmit(data => {

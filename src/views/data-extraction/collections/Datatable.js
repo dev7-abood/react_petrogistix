@@ -65,6 +65,52 @@ const DataTableServerSide = () => {
       sortable: true
     },
     {
+      name: 'Exports',
+      minWidth: '110px',
+      selector: '',
+      cell: row => (
+          <div className='column-action d-flex align-items-center'>
+            <UncontrolledTooltip placement='top' target={`pw-tooltip-${row.id}`}>
+              Related Files
+            </UncontrolledTooltip>
+            <UncontrolledDropdown>
+              <DropdownToggle tag='span'>
+                <MoreVertical size={17} className='cursor-pointer' />
+              </DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem
+                    href={`${env.BACK_BASE_URL}/api_v1/export/treatments/${row._id['$oid']}`}
+                    className='w-100'
+                    target='_blank'
+                    tag={'a'}
+                >
+                  <Download size={14} className='mr-50' />
+                  <span className='align-middle'>Treatments</span>
+                </DropdownItem>
+                <DropdownItem
+                    href={`${env.BACK_BASE_URL}/api_v1/export/muds/${row._id['$oid']}`}
+                    className='w-100'
+                    target='_blank'
+                    tag={'a'}
+                >
+                  <Download size={14} className='mr-50' />
+                  <span className='align-middle'>Muds</span>
+                </DropdownItem>
+                <DropdownItem
+                    href={`${env.BACK_BASE_URL}/api_v1/export/tops/${row._id['$oid']}`}
+                    className='w-100'
+                    target='_blank'
+                    tag={'a'}
+                >
+                  <Download size={14} className='mr-50' />
+                  <span className='align-middle'>Tops</span>
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+          </div>
+      )
+    },
+    {
       name: 'Action',
       minWidth: '110px',
       selector: '',

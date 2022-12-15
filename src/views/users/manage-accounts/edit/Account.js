@@ -23,17 +23,6 @@ const UserAccountTab = ({ selectedUser }) => {
     reader.readAsDataURL(files[0])
   }
 
-  // ** Update user image on mount or change
-  useEffect(() => {
-    if (selectedUser !== null || (selectedUser !== null && userData !== null && selectedUser.id !== userData.id)) {
-      setUserData(selectedUser)
-      if (selectedUser.avatar.length) {
-        return setImg(selectedUser.avatar)
-      } else {
-        return setImg(null)
-      }
-    }
-  }, [selectedUser])
 
   // ** Renders User
   const renderUserAvatar = () => {

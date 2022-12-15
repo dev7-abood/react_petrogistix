@@ -51,26 +51,26 @@ axios.interceptors.request.use(config => {
         config.headers['Accept'] = 'application/json'
 
         config.headers.Authorization = `Bearer ${localStorage.getItem('access_tk')}`
-        console.log('Intercepting the request before sending it', config)
+        // console.log('Intercepting the request before sending it', config)
         return config // nxt jwt.php
     }
 
 }, error => {
-    console.log("Request error: ", error)
+    // console.log("Request error: ", error)
     return Promise.reject(error)
 })
 
 // Add a response interceptor
-axios.interceptors.response.use(response => {
-    // Any status code that lie within the range of 2xx cause this function to trigger
-    // Do something with response data
-    console.log(response)
-    return response;
-}, function (error) {
-    // Any status codes that falls outside the range of 2xx cause this function to trigger
-    // Do something with response error
-    return Promise.reject(error);
-});
+// axios.interceptors.response.use(response => {
+//     // Any status code that lie within the range of 2xx cause this function to trigger
+//     // Do something with response data
+//     console.log(response)
+//     return response;
+// }, function (error) {
+//     // Any status codes that falls outside the range of 2xx cause this function to trigger
+//     // Do something with response error
+//     return Promise.reject(error);
+// });
 
 ReactDOM.render(
   <Provider store={store}>

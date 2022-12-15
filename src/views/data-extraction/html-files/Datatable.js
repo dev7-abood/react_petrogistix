@@ -18,9 +18,7 @@ import {AiOutlineHtml5} from 'react-icons/ai';
 
 import axios from 'axios'
 
-import TopModal from "./modals-data/TopModal";
-import TreatmentModal from "./modals-data/TreatmentModal";
-import MudModal from "./modals-data/MudModal";
+import ShowModal from "./modals-data/ShowModal";
 
 import env from '@src/env.json'
 
@@ -36,10 +34,10 @@ const DataTableServerSide = props => {
     const [limit, setLimit] = useState('')
     const [page, setPage] = useState('')
 
-    const [isOpenTopModal, setIsOpenTopModal] = useState(false)
-    const [isOpenTreatmentModal, setIsOpenTreatmentModal] = useState(false)
-    const [isOpenMudModal, setIsOpenMudModal] = useState(false)
+    const [isOpenModal, setIsOpenModal] = useState(false)
     const [objectId, setObjectId] = useState('')
+    const [modalTitle, setModalTitle] = useState('')
+    const [urlParameter, setUrlParameter] = useState('')
 
     useEffect(_ => {
         (async _ => {
@@ -72,7 +70,10 @@ const DataTableServerSide = props => {
                         <DropdownItem tag='a' href='/' className='w-100' onClick={e => e.preventDefault()}>
                             <div onClick={_ => {
                                 setObjectId(row._id['$oid'])
-                                setIsOpenMudModal(true)
+                                setIsOpenModal(true)
+
+                                setModalTitle('Mod Data')
+                                setUrlParameter('show_mud')
                             }}>
                                 <Eye size={14} className='mr-50'/>
                                 <span className='align-middle'>Mud</span>
@@ -81,7 +82,10 @@ const DataTableServerSide = props => {
                         <DropdownItem  tag='a' href='/' className='w-100' onClick={e => e.preventDefault()}>
                             <div onClick={_ => {
                                 setObjectId(row._id['$oid'])
-                                setIsOpenTopModal(true)
+                                setIsOpenModal(true)
+
+                                setModalTitle('Top Data')
+                                setUrlParameter('show_top')
                             }}>
                                 <Eye size={14} className='mr-50'/>
                                 <span className='align-middle'>Top</span>
@@ -90,7 +94,10 @@ const DataTableServerSide = props => {
                         <DropdownItem tag='a' href='/' className='w-100' onClick={e => e.preventDefault()}>
                             <div onClick={_ => {
                                 setObjectId(row._id['$oid'])
-                                setIsOpenTreatmentModal(true)
+                                setIsOpenModal(true)
+
+                                setModalTitle('Treatment Data')
+                                setUrlParameter('show_treatment')
                             }}>
                                 <Eye size={14} className='mr-50'/>
                                 <span className='align-middle'>Treatment</span>
@@ -114,23 +121,15 @@ const DataTableServerSide = props => {
 
     return (<>
         {!isObjEmpty(data) ? <>
-            <TopModal
-                isOpen={isOpenTopModal}
-                setIsOpen={setIsOpenTopModal}
+
+            <ShowModal
+                isOpen={isOpenModal}
+                setIsOpen={setIsOpenModal}
                 objectId={objectId}
+                modalTitle={modalTitle}
+                urlParameter={urlParameter}
             />
 
-            <TreatmentModal
-                isOpen={isOpenTreatmentModal}
-                setIsOpen={setIsOpenTreatmentModal}
-                objectId={objectId}
-            />
-
-            <MudModal
-                isOpen={isOpenMudModal}
-                setIsOpen={setIsOpenMudModal}
-                objectId={objectId}
-            />
             <Card>
                 <CardHeader className='border-bottom'>
                     <CardTitle tag='h4'>Collection name: {collectionName}</CardTitle>

@@ -13,8 +13,6 @@ import { useForm } from 'react-hook-form'
 import { Button, FormGroup, Label, FormText, Form, Input } from 'reactstrap'
 
 // ** Store & Actions
-import { addUser } from '../store/action'
-import { useDispatch } from 'react-redux'
 
 const SidebarNewUsers = ({ open, toggleSidebar }) => {
   // ** States
@@ -22,31 +20,11 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
   const [plan, setPlan] = useState('basic')
 
   // ** Store Vars
-  const dispatch = useDispatch()
 
   // ** Vars
   const { register, errors, handleSubmit } = useForm()
 
   // ** Function to handle form submit
-  const onSubmit = values => {
-    if (isObjEmpty(errors)) {
-      toggleSidebar()
-      dispatch(
-        addUser({
-          fullName: values['full-name'],
-          company: values.company,
-          role,
-          username: values.username,
-          country: values.country,
-          contact: values.contact,
-          email: values.email,
-          currentPlan: plan,
-          status: 'active',
-          avatar: ''
-        })
-      )
-    }
-  }
 
   return (
     <Sidebar
@@ -57,7 +35,7 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
       contentClassName='pt-0'
       toggleSidebar={toggleSidebar}
     >
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form>
         <FormGroup>
           <Label for='full-name'>
             Full Name <span className='text-danger'>*</span>
