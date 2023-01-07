@@ -1,138 +1,128 @@
-import { Fragment, useState } from 'react'
+import {useState, useEffect} from 'react'
 import classnames from 'classnames'
-import { useForm, Controller } from 'react-hook-form'
-import { Button, Media, Label, Row, Col, Input, FormGroup, Alert, Form } from 'reactstrap'
+import {useForm, Controller} from 'react-hook-form'
+import {Button, Media, Label, Row, Col, Input, FormGroup, Alert, Form} from 'reactstrap'
+import {toast} from 'react-toastify';
+import {yupResolver} from '@hookform/resolvers/yup'
+import * as yup from 'yup'
 
-const GeneralTabs = ({ data }) => {
-  const { register, errors, handleSubmit, control, setValue, trigger } = useForm()
+import axios from 'axios'
 
-  // const [avatar, setAvatar] = useState(data.avatar ? data.avatar : '')
+const GeneralTabs = ({data}) => {
 
-  // const onChange = e => {
-  //   const reader = new FileReader(),
-  //     files = e.target.files
-  //   reader.onload = function () {
-  //     setAvatar(reader.result)
-  //   }
-  //   reader.readAsDataURL(files[0])
-  // }
+    const SignupSchema = yup.object().shape({
+        'first_name': yup.string().required(),
+        'last_name': yup.string().required(),
+        'email': yup.string().email().required(),
+    })
 
-  const onSubmit = data => trigger()
+    const {register, errors, handleSubmit, control, setValue, trigger} = useForm({
+        resolver: yupResolver(SignupSchema)
+    })
 
-  return (
-    <Fragment>
-      <Media>
-        <Media className='mr-25' left>
-          <Media object className='rounded mr-50' src='' alt='Generic placeholder image' height='80' width='80' />
-        </Media>
-        <Media className='mt-75 ml-1' body>
-          <Button.Ripple tag={Label} className='mr-75' size='sm' color='primary'>
-            Upload
-            <Input type='file'  hidden accept='image/*' />
-          </Button.Ripple>
-          <Button.Ripple color='secondary' size='sm' outline>
-            Reset
-          </Button.Ripple>
-          <p>Allowed JPG, GIF or PNG. Max size of 800kB</p>
-        </Media>
-      </Media>
-      <Form className='mt-2' onSubmit={handleSubmit(onSubmit)}>
-        <Row>
-          <Col sm='6'>
-            <FormGroup>
-              <Label for='username'>Username</Label>
-              <Controller
-                defaultValue=''
-                control={control}
-                as={Input}
-                id='username'
-                name='username'
-                placeholder='Username'
-                innerRef={register({ required: true })}
-                onChange={e => setValue('username', e.target.value)}
-                className={classnames({
-                  'is-invalid': errors.username
-                })}
-              />
-            </FormGroup>
-          </Col>
-          <Col sm='6'>
-            <FormGroup>
-              <Label for='name'>Name</Label>
-              <Controller
-                defaultValue=''
-                control={control}
-                as={Input}
-                id='name'
-                name='fullName'
-                placeholder='Name'
-                innerRef={register({ required: true })}
-                onChange={e => setValue('fullName', e.target.value)}
-                className={classnames({
-                  'is-invalid': errors.fullName
-                })}
-              />
-            </FormGroup>
-          </Col>
-          <Col sm='6'>
-            <FormGroup>
-              <Label for='email'>E-mail</Label>
-              <Controller
-                defaultValue=''
-                control={control}
-                as={Input}
-                type='email'
-                id='email'
-                name='email'
-                placeholder='Email'
-                innerRef={register({ required: true })}
-                onChange={e => setValue('email', e.target.value)}
-                className={classnames({
-                  'is-invalid': errors.email
-                })}
-              />
-            </FormGroup>
-          </Col>
-          <Col sm='6'>
-            <FormGroup>
-              <Label for='company'>Company</Label>
-              <Controller
-                defaultValue=''
-                control={control}
-                as={Input}
-                id='company'
-                name='company'
-                placeholder='Company Name'
-                innerRef={register({ required: true })}
-                onChange={e => setValue('company', e.target.value)}
-                className={classnames({
-                  'is-invalid': errors.company
-                })}
-              />
-            </FormGroup>
-          </Col>
-          <Col className='mt-75' sm='12'>
-            <Alert className='mb-50' color='warning'>
-              <h4 className='alert-heading'>Your email is not confirmed. Please check your inbox.</h4>
-              <div className='alert-body'>
-                <a href='/' className='alert-link' onClick={e => e.preventDefault()}>
-                  Resend confirmation
-                </a>
-              </div>
-            </Alert>
-          </Col>
-          <Col className='mt-2' sm='12'>
-            <Button.Ripple type='submit' className='mr-1' color='primary'>
-              Save changes
-            </Button.Ripple>
-            <Button.Ripple color='secondary' outline>
-              Cancel
-            </Button.Ripple>
-          </Col>
-        </Row>
-      </Form>
-    </Fragment>
-  )
+  const [userData, setUserData] = useState([])
+
+    useEffect(_ => {
+        (async _ => {
+            try {
+                const res = await axios.get('/user/get_user_info/')
+                setUserData(res.data.data)
+            } catch (err) {
+
+            }
+        })()
+    }, [])
+
+    const onSubmit = async data => {
+        trigger()
+        try {
+            const res = await axios.put('/user/user_single_update/', data)
+            toast.success(`${res.data.data.msg} ✔`)
+        } catch (err) {
+
+        }
+    }
+
+    return (
+        <>
+            <Form className='mt-2' onSubmit={handleSubmit(onSubmit)}>
+                <Row>
+                    <Col sm='6'>
+                        <FormGroup>
+                            <Label for='username'>Username</Label>
+                            <Input
+                                defaultValue={userData.username}
+                                id='username'
+                                placeholder='Username'
+                                disabled={true}
+                                className={classnames({
+                                    'is-invalid': errors.username
+                                })}
+                            />
+                        </FormGroup>
+                    </Col>
+                    <Col sm='6'>
+                        <FormGroup>
+                            <Label for='name'>First name</Label>
+                            <Input
+                                defaultValue={userData.first_name}
+                                id='first_name'
+                                name='first_name'
+                                placeholder='First name'
+                                innerRef={register({required: true})}
+                                onChange={e => setValue('first_name', e.target.value)}
+                                className={classnames({
+                                    'is-invalid': errors.first_name
+                                })}
+                            />
+                        </FormGroup>
+                    </Col>
+                    <Col sm='6'>
+                        <FormGroup>
+                            <Label for='last_name'>Last name</Label>
+                            <Input
+                                defaultValue={userData.last_name}
+                                type='last_name'
+                                id='last_name'
+                                name='last_name'
+                                placeholder='Last name'
+                                innerRef={register({required: true})}
+                                onChange={e => setValue('last_name', e.target.value)}
+                                className={classnames({
+                                    'is-invalid': errors.last_name
+                                })}
+                            />
+                        </FormGroup>
+                    </Col>
+                    <Col sm='6'>
+                        <FormGroup>
+                            <Label for='email'>E-mail</Label>
+                            <Input
+                                defaultValue={userData.email}
+                                type='email'
+                                id='email'
+                                name='email'
+                                placeholder='Email'
+                                innerRef={register({required: true})}
+                                onChange={e => setValue('email', e.target.value)}
+                                className={classnames({
+                                    'is-invalid': errors.email
+                                })}
+                            />
+                        </FormGroup>
+                    </Col>
+                    <Col className='mt-2' sm='12'>
+                        <Button.Ripple type='submit' className='mr-1' color='primary'>
+                            Save changes
+                        </Button.Ripple>
+                        <Button.Ripple color='secondary' outline>
+                            Cancel
+                        </Button.Ripple>
+                    </Col>
+                </Row>
+            </Form>
+        </>
+    )
 }
 
 export default GeneralTabs

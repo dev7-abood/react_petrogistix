@@ -28,14 +28,16 @@ const Login = () => {
     const loginHandle = data => {
         (async _ => {
             try {
+                localStorage.removeItem('access_tk')
+                localStorage.removeItem('refresh_tk')
                 const res = await axios.post('/user/token/', data)
                 localStorage.setItem('access_tk', res.data.access)
                 localStorage.setItem('refresh_tk', res.data.refresh)
-                console.log('data--->', res)
                 location.href = '/'
             } catch (err) {
-                console.log('error')
+                console.log(err)
             }
+            console.log(data)
         })()
     }
 

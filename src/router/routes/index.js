@@ -42,8 +42,8 @@ const Routes = [
         exact: true
     },
     {
-        path: '/manage-accounts/edit/:id',
-        component: lazy(() => import('../../views/users/manage-accounts/edit')),
+        path: '/user/permissions/:id',
+        component: lazy(() => import('../../views/users/permissions/Index')),
     },
     {
         path: '/login',

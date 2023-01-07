@@ -28,7 +28,7 @@ module.exports = {
 
     // Variable
     // 'init-declarations': 'error',
-    'no-use-before-define': 'error',
+    'no-use-before-define': 'off',
 
     // Stylistic Issues
     'array-bracket-newline': ['off', { multiline: true, minItems: null }],
@@ -63,8 +63,8 @@ module.exports = {
     'space-unary-ops': 'error',
 
     // ES6
-    'arrow-spacing': 'error',
-    'no-confusing-arrow': 'error',
+    'arrow-spacing': 'off',
+    'no-confusing-arrow': 'off',
     'no-duplicate-imports': 'error',
     'no-var': 'error',
     'object-shorthand': 'error',

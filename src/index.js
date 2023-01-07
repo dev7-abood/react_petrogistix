@@ -1,14 +1,14 @@
 // ** React Imports
-import { Suspense, lazy } from 'react'
+import {Suspense, lazy} from 'react'
 import ReactDOM from 'react-dom'
 
 // ** Redux Imports
-import { Provider } from 'react-redux'
-import { store } from './redux/storeConfig/store'
+import {Provider} from 'react-redux'
+import {store} from './redux/storeConfig/store'
 
 // ** Toast & ThemeColors Context
-import { ToastContainer } from 'react-toastify'
-import { ThemeContext } from './utility/context/ThemeColors'
+import {ToastContainer} from 'react-toastify'
+import {ThemeContext} from './utility/context/ThemeColors'
 
 // ** Spinner (Splash Screen)
 import Spinner from './@core/components/spinner/Fallback-spinner'
@@ -45,20 +45,23 @@ import env from '@src/env.json'
 axios.defaults.baseURL = env.API_BASE_URL
 
 // Add a request interceptor
-axios.interceptors.request.use(config => {
 
-    if (localStorage.getItem('access_tk')) {
-        config.headers['Accept'] = 'application/json'
+if (window.location.pathname !== '/login') {
+    axios.interceptors.request.use(config => {
 
-        config.headers.Authorization = `Bearer ${localStorage.getItem('access_tk')}`
-        // console.log('Intercepting the request before sending it', config)
-        return config // nxt jwt.php
-    }
+        if (localStorage.getItem('access_tk')) {
+            config.headers['Accept'] = 'application/json'
 
-}, error => {
-    // console.log("Request error: ", error)
-    return Promise.reject(error)
-})
+            config.headers.Authorization = `Bearer ${localStorage.getItem('access_tk')}`
+            // console.log('Intercepting the request before sending it', config)
+            return config // nxt jwt.php
+        }
+
+    }, error => {
+        // console.log("Request error: ", error)
+        return Promise.reject(error)
+    })
+}
 
 // Add a response interceptor
 // axios.interceptors.response.use(response => {
@@ -72,17 +75,14 @@ axios.interceptors.request.use(config => {
 //     return Promise.reject(error);
 // });
 
-ReactDOM.render(
-  <Provider store={store}>
-    <Suspense fallback={<Spinner />}>
-      <ThemeContext>
-        <LazyApp />
-        <ToastContainer newestOnTop />
-      </ThemeContext>
+ReactDOM.render(<Provider store={store}>
+    <Suspense fallback={<Spinner/>}>
+        <ThemeContext>
+            <LazyApp/>
+            <ToastContainer newestOnTop/>
+        </ThemeContext>
     </Suspense>
-  </Provider>,
-  document.getElementById('root')
-)
+</Provider>, document.getElementById('root'))
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
