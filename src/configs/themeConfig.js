@@ -3,7 +3,7 @@
 //Template config options
 const themeConfig = {
   app: {
-    appName: 'Vuexy',
+    appName: 'Petrogistix',
     appLogoImage: require('@src/assets/images/logo/logo.png').default
   },
   layout: {

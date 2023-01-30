@@ -46,6 +46,14 @@ const Routes = [
         component: lazy(() => import('../../views/users/permissions/Index')),
     },
     {
+        path: '/charts/rig',
+        component: lazy(() => import('../../views/charts/rig')),
+    },
+    {
+        path: '/charts/chemicals',
+        component: lazy(() => import('../../views/charts/chemical')),
+    },
+    {
         path: '/login',
         component: lazy(() => import('../../views/Login')),
         layout: 'BlankLayout',

@@ -5,12 +5,14 @@ import { combineReducers } from 'redux'
 import auth from './auth'
 import navbar from './navbar'
 import layout from './layout'
+import updateLayout from './updateLayout'
 
 
 const rootReducer = combineReducers({
   auth,
   navbar,
-  layout
+  layout,
+  updateLayout
 })
 
 export default rootReducer

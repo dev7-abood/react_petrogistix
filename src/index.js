@@ -46,22 +46,22 @@ axios.defaults.baseURL = env.API_BASE_URL
 
 // Add a request interceptor
 
-if (window.location.pathname !== '/login') {
-    axios.interceptors.request.use(config => {
-
-        if (localStorage.getItem('access_tk')) {
-            config.headers['Accept'] = 'application/json'
-
-            config.headers.Authorization = `Bearer ${localStorage.getItem('access_tk')}`
-            // console.log('Intercepting the request before sending it', config)
-            return config // nxt jwt.php
-        }
-
-    }, error => {
-        // console.log("Request error: ", error)
-        return Promise.reject(error)
-    })
-}
+// if (window.location.pathname !== '/login') {
+//     axios.interceptors.request.use(config => {
+//
+//         if (localStorage.getItem('access_tk')) {
+//             config.headers['Accept'] = 'application/json'
+//
+//             config.headers.Authorization = `Bearer ${localStorage.getItem('access_tk')}`
+//             // console.log('Intercepting the request before sending it', config)
+//             return config // nxt jwt.php
+//         }
+//
+//     }, error => {
+//         // console.log("Request error: ", error)
+//         return Promise.reject(error)
+//     })
+// }
 
 // Add a response interceptor
 // axios.interceptors.response.use(response => {
@@ -74,6 +74,15 @@ if (window.location.pathname !== '/login') {
 //     // Do something with response error
 //     return Promise.reject(error);
 // });
+
+// let link = document.querySelector("link[rel~='icon']");
+// if (!link) {
+//     link = document.createElement('link');
+//     link.rel = 'icon';
+//     document.head.appendChild(link);
+// }
+// link.href = 'https://stackoverflow.com/favicon.ico';
+
 
 ReactDOM.render(<Provider store={store}>
     <Suspense fallback={<Spinner/>}>

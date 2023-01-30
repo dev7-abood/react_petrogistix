@@ -1,4 +1,4 @@
-import {Home, Users, Circle, Settings, Table} from 'react-feather'
+import {Home, Users, Circle, Settings, Table, PieChart} from 'react-feather'
 
 export default [
     {
@@ -31,6 +31,26 @@ export default [
         title: 'Collections',
         icon: <Table size={20}/>,
         navLink: '/collections',
+    },
+    {
+        id: 'charts',
+        title: 'Charts ',
+        icon: <PieChart size={20}/>,
+        navLink: '/charts',
+        children: [
+            {
+                id: 'rig',
+                title: 'Rig',
+                icon: <Circle/>,
+                navLink: '/charts/rig'
+            },
+            {
+                id: 'chemicals',
+                title: 'Chemicals',
+                icon: <Circle/>,
+                navLink: '/charts/chemicals'
+            }
+        ]
     },
     {
         id: 'settings',
