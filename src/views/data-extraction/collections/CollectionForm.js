@@ -8,8 +8,15 @@ import {yupResolver} from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import {useForm, Controller} from 'react-hook-form'
 import classnames from 'classnames'
+import {updateLayout} from '@store/actions/updateLayout'
+import {useDispatch} from 'react-redux'
+import TreeFileView from "./TreeFileView";
+import Alert from 'react-bootstrap/Alert';
+import {RiGuideLine} from 'react-icons/ri';
 
 const CollectionForm = _ => {
+
+    const dispatch = useDispatch()
 
     const [onUploadProgress, setOnUploadProgress] = useState(0)
     const [progressAnimated, setProgressAnimated] = useState(true)
@@ -35,6 +42,8 @@ const CollectionForm = _ => {
         resolver: yupResolver(SignupSchema)
     })
 
+    const [inProgress, setInProgress] = useState(false)
+
     useEffect(_ => {
         if (progressKey !== null) {
             const checkProcessStatus = setInterval(_ => {
@@ -44,6 +53,7 @@ const CollectionForm = _ => {
                         setProgressAnimated(false)
                         setProgressColor('success')
                         setProgressMeg('Done')
+                        setInProgress(false)
                     }
                 })()
             }, 15000)
@@ -74,6 +84,8 @@ const CollectionForm = _ => {
                     }
                 })
                 setProgressKey(res.data.data.process_key)
+                setInProgress(true)
+                dispatch(updateLayout())
             } catch (err) {
                 // console.log(err)
             }
@@ -86,9 +98,9 @@ const CollectionForm = _ => {
                 <CardTitle>Form Collection</CardTitle>
             </CardHeader>
             <CardBody>
-                <Form onSubmit={handleSubmit(onSubmit)}>
-                    <Row>
-                        <Col lg='6' sm='6'>
+                <Row>
+                    <Col lg='6' sm='6'>
+                        <Form onSubmit={handleSubmit(onSubmit)}>
                             <FormGroup>
                                 <Label for='file'>Collection File<span className='text-danger'>*</span></Label>
                                 <Input
@@ -103,10 +115,6 @@ const CollectionForm = _ => {
                                 />
                                 <small>The File Type Is zip</small>
                             </FormGroup>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col lg='6' sm='6'>
                             <FormGroup>
                                 <Label for='note'>Note</Label>
                                 <Input
@@ -122,14 +130,19 @@ const CollectionForm = _ => {
                                     })}
                                 />
                             </FormGroup>
-                        </Col>
-                    </Row>
-                    <br/>
-                    <Button color='primary' outline={true}>Submit</Button>
-                    <div className='my-2'>
-                        <Progress color={progressColor} animated={progressAnimated} value={onUploadProgress}>{progressMeg}</Progress>
-                    </div>
-                </Form>
+                            <br/>
+                            <Button disabled={inProgress} color='primary' outline={true}>Submit</Button>
+                            <div className='my-2'>
+                                <Progress color={progressColor} animated={progressAnimated}
+                                          value={onUploadProgress}>{progressMeg}</Progress>
+                            </div>
+                        </Form>
+                    </Col>
+                    <Col lg='6' sm='6'>
+                        <Alert className='p-1' color='warning'><RiGuideLine/> File structure guide</Alert>
+                        <TreeFileView/>
+                    </Col>
+                </Row>
             </CardBody>
         </Card>
     </>)
