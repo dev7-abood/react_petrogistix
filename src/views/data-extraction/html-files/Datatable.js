@@ -1,7 +1,18 @@
 import {useState, useEffect} from 'react'
 import {isObjEmpty} from "@utils";
 import {
-    UncontrolledDropdown, DropdownMenu, DropdownToggle, DropdownItem, Card, CardHeader, CardTitle, Button, Modal, ModalHeader, ModalBody, ModalFooter
+    UncontrolledDropdown,
+    DropdownMenu,
+    DropdownToggle,
+    DropdownItem,
+    Card,
+    CardHeader,
+    CardTitle,
+    Button,
+    Modal,
+    ModalHeader,
+    ModalBody,
+    ModalFooter
 } from 'reactstrap'
 
 
@@ -47,6 +58,22 @@ const DataTableServerSide = props => {
     }, [limit, page, collection_id, selectYear, search])
 
 
+    const [fileAccessKey, setFileAccessKey] = useState('')
+    const [userId, setUserID] = useState('')
+
+    useEffect(_ => {
+        (async _ => {
+            try {
+                const res = await axios.get('/generate_access_file_key/')
+                setFileAccessKey(res.data.data.access_key)
+                setUserID(res.data.data.user_id)
+            } catch (err) {
+                console.log(err)
+            }
+        })()
+    }, [])
+
+
     const columns = [{
         name: 'Well', selector: row => row.Well,
     }, {
@@ -54,7 +81,7 @@ const DataTableServerSide = props => {
     }, {
         name: 'Date', selector: row => row.Date['$date'],
     }, {
-        name: 'View file', selector: row => <a target='_blank' href={`${env.BACK_BASE_URL}${row.Path}`}><AiOutlineHtml5
+        name: 'View file', selector: row => <a target='_blank' href={`${env.BACK_BASE_URL}${`/api_v1/access-file/?access_id=access_key_${userId}&file_path=${row.Path}`}`}><AiOutlineHtml5
             size={25}/></a>,
     }, {
         name: 'Data',
@@ -62,50 +89,50 @@ const DataTableServerSide = props => {
         selector: '',
         sortable: true,
         cell: row => (<div className='column-action d-flex align-items-center'>
-                <UncontrolledDropdown>
-                    <DropdownToggle tag='span'>
-                        <MoreVertical size={17} className='cursor-pointer'/>
-                    </DropdownToggle>
-                    <DropdownMenu right>
-                        <DropdownItem tag='a' href='/' className='w-100' onClick={e => e.preventDefault()}>
-                            <div onClick={_ => {
-                                setObjectId(row._id['$oid'])
-                                setIsOpenModal(true)
+            <UncontrolledDropdown>
+                <DropdownToggle tag='span'>
+                    <MoreVertical size={17} className='cursor-pointer'/>
+                </DropdownToggle>
+                <DropdownMenu right>
+                    <DropdownItem tag='a' href='/' className='w-100' onClick={e => e.preventDefault()}>
+                        <div onClick={_ => {
+                            setObjectId(row._id['$oid'])
+                            setIsOpenModal(true)
 
-                                setModalTitle('Mod Data')
-                                setUrlParameter('show_mud')
-                            }}>
-                                <Eye size={14} className='mr-50'/>
-                                <span className='align-middle'>Mud</span>
-                            </div>
-                        </DropdownItem>
-                        <DropdownItem  tag='a' href='/' className='w-100' onClick={e => e.preventDefault()}>
-                            <div onClick={_ => {
-                                setObjectId(row._id['$oid'])
-                                setIsOpenModal(true)
+                            setModalTitle('Mod Data')
+                            setUrlParameter('show_mud')
+                        }}>
+                            <Eye size={14} className='mr-50'/>
+                            <span className='align-middle'>Mud</span>
+                        </div>
+                    </DropdownItem>
+                    <DropdownItem tag='a' href='/' className='w-100' onClick={e => e.preventDefault()}>
+                        <div onClick={_ => {
+                            setObjectId(row._id['$oid'])
+                            setIsOpenModal(true)
 
-                                setModalTitle('Top Data')
-                                setUrlParameter('show_top')
-                            }}>
-                                <Eye size={14} className='mr-50'/>
-                                <span className='align-middle'>Top</span>
-                            </div>
-                        </DropdownItem>
-                        <DropdownItem tag='a' href='/' className='w-100' onClick={e => e.preventDefault()}>
-                            <div onClick={_ => {
-                                setObjectId(row._id['$oid'])
-                                setIsOpenModal(true)
+                            setModalTitle('Top Data')
+                            setUrlParameter('show_top')
+                        }}>
+                            <Eye size={14} className='mr-50'/>
+                            <span className='align-middle'>Top</span>
+                        </div>
+                    </DropdownItem>
+                    <DropdownItem tag='a' href='/' className='w-100' onClick={e => e.preventDefault()}>
+                        <div onClick={_ => {
+                            setObjectId(row._id['$oid'])
+                            setIsOpenModal(true)
 
-                                setModalTitle('Treatment Data')
-                                setUrlParameter('show_treatment')
-                            }}>
-                                <Eye size={14} className='mr-50'/>
-                                <span className='align-middle'>Treatment</span>
-                            </div>
-                        </DropdownItem>
-                    </DropdownMenu>
-                </UncontrolledDropdown>
-            </div>)
+                            setModalTitle('Treatment Data')
+                            setUrlParameter('show_treatment')
+                        }}>
+                            <Eye size={14} className='mr-50'/>
+                            <span className='align-middle'>Treatment</span>
+                        </div>
+                    </DropdownItem>
+                </DropdownMenu>
+            </UncontrolledDropdown>
+        </div>)
     }];
 
 
@@ -131,9 +158,11 @@ const DataTableServerSide = props => {
             />
 
             <Card>
-                <CardHeader className='border-bottom'>
-                    <CardTitle tag='h4'>Collection name: {collectionName}</CardTitle>
-                </CardHeader>
+                <div className='p-1'>
+                    <br/>
+                    <p>FILES ACCESS KEY: {fileAccessKey}</p>
+                    <p>Collection name: {collectionName}</p>
+                </div>
                 <DataTable
                     noHeader
                     direction={'auto'}
