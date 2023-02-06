@@ -31,7 +31,7 @@ const UserDropdown = () => {
     //** ComponentDidMount
     useEffect(() => {
         if (isUserLoggedIn() !== null) {
-            setUserData(JSON.parse(localStorage.getItem('userData')))
+            setUserData(JSON.parse(localStorage.getItem('user_data')))
         }
     }, [])
 
@@ -66,7 +66,12 @@ const UserDropdown = () => {
                     <User size={14} className='mr-75'/>
                     <span className='align-middle'>Profile</span>
                 </DropdownItem>
-                <DropdownItem tag={Link} to='/login' onClick={() => dispatch(handleLogout())}>
+                <DropdownItem tag={Link} to='/login' onClick={() => {
+                    dispatch(handleLogout())
+                    localStorage.removeItem('access_tk')
+                    localStorage.removeItem('refresh_tk')
+                    localStorage.removeItem('user_data')
+                }}>
                     <Power size={14} className='mr-75'/>
                     <span className='align-middle'>Logout</span>
                 </DropdownItem>
