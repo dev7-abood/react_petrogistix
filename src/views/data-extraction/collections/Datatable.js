@@ -30,23 +30,48 @@ import DataTable from 'react-data-table-component'
 import axios from 'axios'
 
 import env from '@src/env.json'
+import { useSelector } from 'react-redux'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
+import DeleteAlertModal from "./DeleteAlertModal";
+
 const DataTableServerSide = () => {
   // ** Store Vars
 
   // ** States
+  const [isOpenDeleteModal, setOpenDeleteModal] = useState(false)
+  const [collectionId, setCollectionId] = useState(null)
+  const [updateCollection, setUpdateCollection] = useState(false)
+
+  const updateLayout = useSelector(state => state.updateLayout)
+
   const [searchValue, setSearchValue] = useState('')
 
   const [data, setData] = useState([])
   const [limit, setLimit] = useState('')
   const [page, setPage] = useState('')
+  const [fileAccessKey, setFileAccessKey] = useState('')
+  const [userId, setUserID] = useState('')
+
 
   useEffect(_ => {
     (async _ => {
         const res = await axios.get(`/data-exstr/collection/index/?format=json${limit}${page}${searchValue}`)
         setData(res.data)
     })()
-  }, [limit, page, searchValue])
+  }, [limit, page, searchValue, updateLayout, updateCollection])
+
+
+  useEffect(_ => {
+    (async _ => {
+      try {
+        const res = await axios.get('/generate_access_file_key/')
+        setFileAccessKey(res.data.data.access_key)
+        setUserID(res.data.data.user_id)
+      } catch (err) {
+        console.log(err)
+      }
+    })()
+  }, [])
 
   const columns = [
     {
@@ -129,7 +154,7 @@ const DataTableServerSide = () => {
               <DropdownMenu right>
                 <DropdownItem tag='a' href='/' className='w-100'>
                   <Download size={14} className='mr-50' />
-                  <a download href={`${env.BACK_BASE_URL}${row.collection_path}`}><span className='align-middle'>Download</span></a>
+                  <a target='_blank' download href={`${env.BACK_BASE_URL}${`/api_v1/access-file/?access_id=access_key_${userId}&file_path=${row.collection_path}`}`}><span className='align-middle'>Download</span></a>
                 </DropdownItem>
                 <DropdownItem
                     tag='a'
@@ -137,6 +162,8 @@ const DataTableServerSide = () => {
                     className='w-100'
                     onClick={e => {
                       e.preventDefault()
+                      setOpenDeleteModal(true)
+                      setCollectionId(row._id['$oid'])
                     }}
                 >
                   <Trash size={14} className='mr-50' />
@@ -159,9 +186,17 @@ const DataTableServerSide = () => {
 
   return (
     <>
+      <DeleteAlertModal
+          isOpenDeleteModal={isOpenDeleteModal}
+          setOpenDeleteModal={setOpenDeleteModal}
+          collectionId={collectionId}
+          updateCollection={updateCollection}
+          setUpdateCollection={setUpdateCollection}
+      />
       <Card>
         <Row className='mx-0 mt-1 mb-50 my-3'>
           <Col sm='8'>
+            FILES ACCESS KEY: {fileAccessKey}
           </Col>
           <Col className='d-flex align-items-center justify-content-sm-end mt-sm-0 mt-1' sm='4'>
             <Label className='mr-1' for='search-input'>
