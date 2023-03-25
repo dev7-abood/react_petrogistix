@@ -8,13 +8,14 @@ import {yupResolver} from '@hookform/resolvers/yup'
 import classnames from 'classnames'
 
 import {useEffect, useState} from 'react'
-import axios from 'axios'
+import env from "@src/env.json";
+// import axios from 'axios'
 
 const index = _ => {
 
     const [years, setYears] = useState([])
-    const [isDisabled, setIsDisabled] = useState(false)
-    const [progressValue, setProgressValue] = useState(0)
+    // const [isDisabled, setIsDisabled] = useState(false)
+    // const [progressValue, setProgressValue] = useState(0)
 
     useEffect(_ => {
         const currentYear = new Date().getFullYear();
@@ -26,20 +27,20 @@ const index = _ => {
         setYears(years)
     }, [])
 
-    const [months, setMonths] = useState({
-        1: 'Jan',
-        2: 'Feb',
-        3: 'Mar',
-        4: 'Apr',
-        5: 'May',
-        6: 'Jun',
-        7: 'Jul',
-        8: 'Aug',
-        9: 'Sep',
-        10: 'Oct',
-        11: 'Nov',
-        12: 'Dec',
-    })
+    const months = [
+        {number: '01', name: 'Jan'},
+        {number: '02', name: 'Feb'},
+        {number: '03', name: 'Mar'},
+        {number: '04', name: 'Apr'},
+        {number: '05', name: 'May'},
+        {number: '06', name: 'Jun'},
+        {number: '07', name: 'Jul'},
+        {number: '08', name: 'Aug'},
+        {number: '09', name: 'Sep'},
+        {number: '10', name: 'Oct'},
+        {number: '11', name: 'Nov'},
+        {number: '12', name: 'Dec'}
+    ]
 
     const SignupSchema = yup.object().shape({
         year: yup.string().required(), month: yup.string().required(),
@@ -50,19 +51,11 @@ const index = _ => {
     })
 
     const onSubmit = async data => {
-        setProgressValue(0)
-        setProgressValue(100)
-        setIsDisabled(true)
-        try {
-            const res = await axios.get(`chart/rig_chart/${data.year}/${data.month}/`)
-            // const mainWindow = window.open("", "_blank")
-            // mainWindow.document.write(res.data.data.html)
-            const mainWindow = window.open("", "MsgWindow", "width=800,height=800");
-            mainWindow.document.write(res.data.data.html);
-            setIsDisabled(false)
-        } catch (err) {
-
-        }
+        // setProgressValue(0)
+        // setProgressValue(100)
+        // setIsDisabled(true)
+        window.open(`${env.CHART_BACK_URL}/rig-chart/${data.month}/${data.year}/`, '_blank');
+        // setIsDisabled(false)
     }
 
     return (<>
@@ -107,15 +100,18 @@ const index = _ => {
                                         'is-invalid': errors.month
                                     })}
                                 >
-                                    {Object.keys(months).map((el, index) => {
-                                        return <option key={index} value={el}>{months[el]}</option>
+                                    {months.map((el, index) => {
+                                        return <option key={index} value={el.number}>{el.name}</option>
                                     })}
                                 </Input>
                             </FormGroup>
                             <hr/>
-                            <Progress className={'my-2'} animated={isDisabled} color="success" value={progressValue}/>
-                            <Button disabled={isDisabled} id='submit' type='submit' color='primary'>
-                                Start view
+                            {/*<Progress className={'my-2'} animated={isDisabled} color="success" value={progressValue}/>*/}
+                            {/*<Button disabled={isDisabled} id='submit' type='submit' color='primary'>*/}
+                            {/*    View*/}
+                            {/*</Button> */}
+                            <Button id='submit' type='submit' color='primary'>
+                                View
                             </Button>
                         </Form>
                     </Col>

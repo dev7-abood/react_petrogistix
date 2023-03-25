@@ -17,6 +17,30 @@ const Routes = [
         }
     },
     {
+        path: '/department',
+        component: lazy(() => import('../../views/department')),
+        meta: {
+            authRoute: false,
+            title: 'Departments'
+        }
+    },
+    {
+        path: '/jobs',
+        component: lazy(() => import('../../views/jobs')),
+        meta: {
+            authRoute: false,
+            title: 'Jobs'
+        }
+    },
+    {
+        path: '/questions',
+        component: lazy(() => import('../../views/q')),
+        meta: {
+            authRoute: false,
+            title: 'questions'
+        }
+    },
+    {
         path: '/collections',
         component: lazy(() => import('../../views/data-extraction/index')),
         meta: {
@@ -87,6 +111,14 @@ const Routes = [
         meta: {
             authRoute: false,
             title: 'Rig Chart'
+        }
+    },
+    {
+        path: '/show-q',
+        component: lazy(() => import('../../views/showQ')),
+        meta: {
+            authRoute: false,
+            title: 'Show questions'
         }
     },
     {

@@ -1,4 +1,5 @@
 import {Home, Users, Circle, Settings, Table, PieChart} from 'react-feather'
+import { BsBuildings, BsBagDash, BsQuestionSquare } from 'react-icons/bs';
 
 export default [
     {
@@ -77,5 +78,23 @@ export default [
                 navLink: '/settings/favicon'
             }
         ]
-    }
+    },
+    {
+        id: 'departments',
+        title: 'Departments',
+        icon: <BsBuildings size={20}/>,
+        navLink: '/department',
+    },
+    {
+        id: 'jobs',
+        title: 'Jobs',
+        icon: <BsBagDash size={20}/>,
+        navLink: '/jobs',
+    },
+    {
+        id: 'questions',
+        title: 'Questions',
+        icon: <BsQuestionSquare size={20}/>,
+        navLink: '/questions',
+    },
 ]
