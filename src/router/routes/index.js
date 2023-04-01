@@ -37,7 +37,15 @@ const Routes = [
         component: lazy(() => import('../../views/q')),
         meta: {
             authRoute: false,
-            title: 'questions'
+            title: 'Questions'
+        }
+    },
+    {
+        path: '/create-questions',
+        component: lazy(() => import('../../views/q/CreateV1')),
+        meta: {
+            authRoute: false,
+            title: 'Create Questions'
         }
     },
     {
@@ -119,6 +127,14 @@ const Routes = [
         meta: {
             authRoute: false,
             title: 'Show questions'
+        }
+    },
+    {
+        path: '/q-groups',
+        component: lazy(() => import('../../views/qGroups')),
+        meta: {
+            authRoute: false,
+            title: 'Question Groups'
         }
     },
     {

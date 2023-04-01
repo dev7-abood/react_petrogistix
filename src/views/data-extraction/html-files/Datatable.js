@@ -5,14 +5,7 @@ import {
     DropdownMenu,
     DropdownToggle,
     DropdownItem,
-    Card,
-    CardHeader,
-    CardTitle,
-    Button,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter
+    Card
 } from 'reactstrap'
 
 
@@ -81,7 +74,7 @@ const DataTableServerSide = props => {
     }, {
         name: 'Date', selector: row => row.Date['$date'],
     }, {
-        name: 'View file', selector: row => <a target='_blank' href={`${env.BACK_BASE_URL}${`/api_v1/access-file/?access_id=access_key_${userId}&file_path=${row.Path}`}`}><AiOutlineHtml5
+        name: 'View file', selector: row => <a target='_blank' href={`${env.BACK_BASE_URL}${`/api_v1/access-file/?access_id=access_key_${userId}&file_path=${row.Path.replace(env.DESKTOP_PATH, '')}`}`}><AiOutlineHtml5
             size={25}/></a>,
     }, {
         name: 'Data',

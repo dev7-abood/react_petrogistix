@@ -92,9 +92,9 @@ export default [
         navLink: '/jobs',
     },
     {
-        id: 'questions',
-        title: 'Questions',
+        id: 'questionGroups',
+        title: 'Question',
         icon: <BsQuestionSquare size={20}/>,
-        navLink: '/questions',
+        navLink: '/q-groups',
     },
 ]

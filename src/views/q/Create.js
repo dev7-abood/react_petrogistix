@@ -47,6 +47,12 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
       toggleSidebar={toggleSidebar}
     >
       <Form>
+
+        <div className='demo-inline-spacing'>
+          <CustomInput type='radio' id='exampleCustomRadio' name='customRadio' inline label='Textarea' defaultChecked />
+          <CustomInput type='radio' id='exampleCustomRadio2' name='customRadio' inline label='Multiple choice' />
+        </div>
+
         <FormGroup>
           <Label for='title'>
             Title <span className='text-danger'>*</span>
@@ -73,28 +79,6 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
               className={classnames({ 'is-invalid': errors['number_of_words'] })}
           />
         </FormGroup>
-
-        <FormGroup>
-          <CustomInput
-              name='type'
-              type='radio'
-              className='custom-control-success'
-              id='type'
-              label='Textarea'
-              defaultChecked
-              inline
-          />
-          <CustomInput
-              name='type'
-              type='radio'
-              className='custom-control-success'
-              id='type'
-              label='Multiple choice'
-              inline
-          />
-
-        </FormGroup>
-
 
         {/*<FormGroup>*/}
         {/*  <Label for='answer'>*/}

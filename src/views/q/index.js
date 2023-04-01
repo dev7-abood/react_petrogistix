@@ -1,6 +1,7 @@
 import DataTable from 'react-data-table-component';
 import {Link} from 'react-router-dom';
 import Breadcrumbs from '@components/breadcrumbs';
+import DeleteAlertModal from "@c/DeleteAlertModal";
 
 import {
     MoreVertical, FileText, Trash2, Archive, ChevronDown
