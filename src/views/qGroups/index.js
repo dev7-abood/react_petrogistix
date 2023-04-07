@@ -15,12 +15,16 @@ import axios from 'axios'
 import {useState, useEffect} from 'react';
 import DeleteAlertModal from "@c/DeleteAlertModal";
 import {useHistory} from "react-router-dom";
+import {FaRegFilePowerpoint} from 'react-icons/fa';
+import {BsClockHistory} from 'react-icons/bs';
+import PeriodsModal from './PeriodsModal'
 
 const Job = _ => {
 
     const history = useHistory()
 
     const [isUpdate, setIsUpdate] = useState(true)
+    const [openPeriodsModal, setOpenPeriodsModal] = useState(false)
 
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [deleteRout, setDeleteRout] = useState('')
@@ -63,11 +67,11 @@ const Job = _ => {
             </DropdownToggle>
             <DropdownMenu right>
                 <DropdownItem
-                    onClick={_ => editToggleSidebar(row)}
                     className='w-100'
+                    onClick={_ => history.push(`/q-permissions/${row.id}`, {data: row})}
                 >
-                    <Archive size={14} className='mr-50'/>
-                    <span className='align-middle'>Edit</span>
+                    <FaRegFilePowerpoint size={14} className='mr-50'/>
+                    <span className='align-middle'>Permissions</span>
                 </DropdownItem>
                 <DropdownItem
                     className='w-100'
@@ -75,6 +79,22 @@ const Job = _ => {
                 >
                     <Archive size={14} className='mr-50'/>
                     <span className='align-middle'>Questions</span>
+                </DropdownItem>
+
+                <DropdownItem
+                    className='w-100'
+                    onClick={_ => setOpenPeriodsModal(!openPeriodsModal)}
+                >
+                    <BsClockHistory size={14} className='mr-50'/>
+                    <span className='align-middle'>Periods</span>
+                </DropdownItem>
+
+                <DropdownItem
+                    onClick={_ => editToggleSidebar(row)}
+                    className='w-100'
+                >
+                    <Archive size={14} className='mr-50'/>
+                    <span className='align-middle'>Edit</span>
                 </DropdownItem>
                 <DropdownItem
                     className='w-100'
@@ -117,12 +137,19 @@ const Job = _ => {
                 setIsUpdate={setIsUpdate}
                 job={data}
             />
+
+            <PeriodsModal
+                setOpenPeriodsModal={_ => setOpenPeriodsModal(!openPeriodsModal)}
+                openPeriodsModal={openPeriodsModal}
+            />
+
             <CardBody>
                 <CardHeader>
                     <p>Question Group Table</p>
                     <Button onClick={createToggleSidebar} color='primary'>Add New Group</Button>
                 </CardHeader>
                 <DataTable
+                    className='py-5'
                     noHeader
                     columns={columns}
                     data={data}

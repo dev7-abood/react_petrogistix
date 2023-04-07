@@ -41,11 +41,35 @@ const Routes = [
         }
     },
     {
+        path: '/q-permissions/:id',
+        component: lazy(() => import('../../views/qPermissions')),
+        meta: {
+            authRoute: false,
+            title: 'Question Permissions'
+        }
+    },
+    {
         path: '/create-questions',
         component: lazy(() => import('../../views/q/CreateV1')),
         meta: {
             authRoute: false,
             title: 'Create Questions'
+        }
+    },
+    {
+        path: '/answers-section',
+        component: lazy(() => import('../../views/answersSection/Datatable')),
+        meta: {
+            authRoute: false,
+            title: 'Answer Section'
+        }
+    },
+    {
+        path: '/show-questions',
+        component: lazy(() => import('../../views/answersSection/')),
+        meta: {
+            authRoute: false,
+            title: 'Show Questions'
         }
     },
     {

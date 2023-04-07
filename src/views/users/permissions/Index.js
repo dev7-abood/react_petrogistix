@@ -70,7 +70,8 @@ const index = _ => {
         }
     }
 
-    return (<>
+    return (
+        <>
         <Breadcrumbs breadCrumbTitle='Permissions' breadCrumbParent='Dashboard' breadCrumbActive='Permissions'/>
         {!isObjEmpty(prems) ? <Card>
             <CardBody>
@@ -126,7 +127,8 @@ const index = _ => {
                 </Col>
             </CardBody>
         </Card> : ''}
-    </>)
+    </>
+    )
 }
 
 export default index

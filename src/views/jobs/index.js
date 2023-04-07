@@ -6,7 +6,7 @@ import {
 } from 'react-feather';
 
 import {
-    Card, CardBody, CardHeader, Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem
+    Card, CardBody, CardHeader, Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Input
 } from 'reactstrap';
 
 import Create from "./Create";
@@ -27,12 +27,23 @@ const Job = _ => {
     const [editData, setEditData] = useState({})
 
     const [departments, setDepartments] = useState([])
+    const [rowLength, setRowLength] = useState(0)
+
+    const [priorities, setPriorities] = useState([])
 
     useEffect(_ => {
         (async _ => {
             try {
+                const priorities = []
                 const res = await axios.get('job/list/')
-                setData(res.data.results)
+                const data = res.data.results
+                setData(data)
+                setRowLength(data.length)
+                data.map(el => {
+                    priorities.push(el.name)
+                })
+                setPriorities(priorities)
+
             } catch (err) {
 
             }
@@ -59,6 +70,18 @@ const Job = _ => {
         setEditData(row)
     }
 
+    const onChangePriority = async (current_id, old_value, new_value) => {
+        console.log(`current_id ${current_id}`, `Old value ${old_value}`, `New value ${new_value}`)
+        try {
+            const res = await axios.post('/job/sort_priorit/', {
+                id: current_id, old_value, new_value
+            })
+            setIsUpdate(!isUpdate)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
     const columns = [{
         name: 'Job Name', selector: row => row.name,
     }, {
@@ -71,33 +94,42 @@ const Job = _ => {
         name: 'Evaluation',
         selector: row => row.evaluation === 1 ? <span className='text-success'>Can</span> :
             <span className='text-danger'>Can't</span>,
-    },
-        {
-            name: 'Actions', minWidth: '100px', cell: row => (<UncontrolledDropdown>
-                <DropdownToggle tag='div' className='btn btn-sm'>
-                    <MoreVertical size={14} className='cursor-pointer'/>
-                </DropdownToggle>
-                <DropdownMenu right>
-                    <DropdownItem
-                        onClick={_ => editToggleSidebar(row)}
-                        className='w-100'
-                    >
-                        <Archive size={14} className='mr-50'/>
-                        <span className='align-middle'>Edit</span>
-                    </DropdownItem>
-                    <DropdownItem
-                        className='w-100'
-                        onClick={_ => {
-                            toggle()
-                            setDeleteRout(`/job/delete/${row.id}/`)
-                        }}
-                    >
-                        <Trash2 size={14} className='mr-50'/>
-                        <span className='align-middle'>Delete</span>
-                    </DropdownItem>
-                </DropdownMenu>
-            </UncontrolledDropdown>)
-        }];
+    }, {
+        name: 'Priority', selector: row => <Input onChange={e => onChangePriority(row.id, row.priority, e.target.value)}
+                                                  defaultValue={row.priority} type='select'>
+            {[...Array(rowLength)].map((el, index) => {
+                if (index + 1 === row.priority) {
+                    return <option value={row.priority} key={index}>{row.priority}</option>
+                }
+                return <option value={index + 1} key={index}>{index + 1}</option>
+            })}
+        </Input>
+    }, {
+        name: 'Actions', minWidth: '100px', cell: row => (<UncontrolledDropdown>
+            <DropdownToggle tag='div' className='btn btn-sm'>
+                <MoreVertical size={14} className='cursor-pointer'/>
+            </DropdownToggle>
+            <DropdownMenu right>
+                <DropdownItem
+                    onClick={_ => editToggleSidebar(row)}
+                    className='w-100'
+                >
+                    <Archive size={14} className='mr-50'/>
+                    <span className='align-middle'>Edit</span>
+                </DropdownItem>
+                <DropdownItem
+                    className='w-100'
+                    onClick={_ => {
+                        toggle()
+                        setDeleteRout(`/job/delete/${row.id}/`)
+                    }}
+                >
+                    <Trash2 size={14} className='mr-50'/>
+                    <span className='align-middle'>Delete</span>
+                </DropdownItem>
+            </DropdownMenu>
+        </UncontrolledDropdown>)
+    }];
 
     return (<>
         <Breadcrumbs breadCrumbTitle='Jobs' breadCrumbParent='Dashboard'
@@ -133,6 +165,12 @@ const Job = _ => {
                     <p>Jobs Table</p>
                     <Button onClick={createToggleSidebar} color='primary'>Add New Job</Button>
                 </CardHeader>
+                <div className='d-flex'>
+                    <p className='mx-1'><strong>Priorities: </strong></p>
+                    {priorities.map((el, index) => {
+                        return <p key={index}><strong>{el}</strong><span className='mx-1'>{rowLength !== index + 1 ? '>' : ''}</span></p>
+                    })}
+                </div>
                 <DataTable
                     noHeader
                     columns={columns}
