@@ -31,9 +31,9 @@ import axios from 'axios'
 
 import env from '@src/env.json'
 import { useSelector } from 'react-redux'
-import '@styles/react/libs/tables/react-dataTable-component.scss'
 import DeleteAlertModal from "./DeleteAlertModal";
-
+import '@styles/react/libs/react-select/_react-select.scss'
+import '@styles/react/libs/tables/react-dataTable-component.scss'
 const DataTableServerSide = () => {
   // ** Store Vars
 

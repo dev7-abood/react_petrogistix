@@ -18,12 +18,11 @@ import axios from 'axios'
 
 // ** Store & Actions
 
-const Create = ({open, toggleSidebar, setIsUpdate, isUpdate, periods}) => {
+const Edit = ({open, toggleSidebar, setIsUpdate, isUpdate, editData}) => {
 
     const SignupSchema = yup.object().shape({
-        name: yup.string().required(),
+        title: yup.string().required(),
         status: yup.number().required(),
-        period_id: yup.number().required(),
     })
 
     const {register, errors, handleSubmit, control, setValue, trigger} = useForm({
@@ -33,7 +32,7 @@ const Create = ({open, toggleSidebar, setIsUpdate, isUpdate, periods}) => {
     const onSubmit = async data => {
         trigger()
         try {
-            await axios.post('/group/create/', data, {
+            await axios.post('/period/create_period/', data, {
                 headers: {
                     Accept: 'application/json'
                 }
@@ -49,35 +48,29 @@ const Create = ({open, toggleSidebar, setIsUpdate, isUpdate, periods}) => {
         <Sidebar
             size='lg'
             open={open}
-            title='New Group'
+            title='Edit Period'
             headerClassName='mb-1'
             contentClassName='pt-0'
             toggleSidebar={toggleSidebar}
         >
             <Form action='/' className='auth-register-form mt-2' onSubmit={handleSubmit(onSubmit)}>
+                <Input
+                    name='id'
+                    id='id'
+                    innerRef={register({required: true})}
+                    defaultValue={editData.id}
+                    type='hidden'
+                />
                 <FormGroup>
-                    <Label for='name'>Group Name <span className='text-danger'>*</span></Label>
+                    <Label for='name'>Period Name <span className='text-danger'>*</span></Label>
                     <Input
-                        name='name'
-                        id='name'
+                        defaultValue={editData.title}
+                        name='title'
+                        id='title'
                         placeholder='Programiers'
                         innerRef={register({required: true})}
-                        className={classnames({'is-invalid': errors['name']})}
+                        className={classnames({'is-invalid': errors['title']})}
                     />
-                </FormGroup>
-                <FormGroup className='mb-2'>
-                    <Label for='period_id'>Period</Label>
-                    <Input
-                        type='select'
-                        name='period_id'
-                        id='period_id'
-                        innerRef={register({required: true})}
-                        className={classnames({'is-invalid': errors['period_id']})}
-                    >
-                        {periods.map((el, index) => {
-                            return <option key={index} value={el.id}>{el.title}</option>
-                        })}
-                    </Input>
                 </FormGroup>
                 <FormGroup className='mb-2'>
                     <Label for='status'>Status</Label>
@@ -87,13 +80,14 @@ const Create = ({open, toggleSidebar, setIsUpdate, isUpdate, periods}) => {
                         id='status'
                         innerRef={register({required: true})}
                         className={classnames({'is-invalid': errors['status']})}
+                        defaultValue={editData.status}
                     >
                         <option value='1'>Active</option>
                         <option value='0'>Disabled</option>
                     </Input>
                 </FormGroup>
                 <Button type='submit' className='mr-1' color='primary'>
-                    Submit
+                    Update
                 </Button>
                 <Button type='reset' color='secondary' outline onClick={toggleSidebar}>
                     Cancel
@@ -103,4 +97,4 @@ const Create = ({open, toggleSidebar, setIsUpdate, isUpdate, periods}) => {
     )
 }
 
-export default Create
+export default Edit

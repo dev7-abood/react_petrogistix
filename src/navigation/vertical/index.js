@@ -1,5 +1,7 @@
 import {Home, Users, Circle, Settings, Table, PieChart} from 'react-feather'
 import { BsBuildings, BsBagDash, BsQuestionSquare } from 'react-icons/bs';
+import { BiTimeFive } from 'react-icons/bi';
+import { CiViewTimeline } from 'react-icons/ci';
 
 export default [
     {
@@ -92,9 +94,21 @@ export default [
         navLink: '/jobs',
     },
     {
-        id: 'questionGroups',
-        title: 'Question',
+        id: 'QuestionManagement',
+        title: 'Question management',
         icon: <BsQuestionSquare size={20}/>,
-        navLink: '/q-groups',
+        navLink: '/group/questions',
+    },
+    {
+        id: 'Questions',
+        title: 'Questions',
+        icon: <CiViewTimeline size={20}/>,
+        navLink: '/questions',
+    },
+    {
+        id: 'Periods',
+        title: 'Periods',
+        icon: <BiTimeFive size={20}/>,
+        navLink: '/periods',
     },
 ]

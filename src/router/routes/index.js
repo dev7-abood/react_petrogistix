@@ -33,27 +33,27 @@ const Routes = [
         }
     },
     {
-        path: '/questions',
-        component: lazy(() => import('../../views/q')),
+        path: '/group/permissions/:id',
+        component: lazy(() => import('../../views/qGroups/Permissions')),
         meta: {
             authRoute: false,
-            title: 'Questions'
+            title: 'Group Permissions'
         }
     },
     {
-        path: '/q-permissions/:id',
-        component: lazy(() => import('../../views/qPermissions')),
-        meta: {
-            authRoute: false,
-            title: 'Question Permissions'
-        }
-    },
-    {
-        path: '/create-questions',
-        component: lazy(() => import('../../views/q/CreateV1')),
+        path: '/create/questions',
+        component: lazy(() => import('../../views/q/Create')),
         meta: {
             authRoute: false,
             title: 'Create Questions'
+        }
+    },
+    {
+        path: '/questions',
+        component: lazy(() => import('../../views/showQ/')),
+        meta: {
+            authRoute: false,
+            title: 'Questions'
         }
     },
     {
@@ -154,11 +154,27 @@ const Routes = [
         }
     },
     {
-        path: '/q-groups',
+        path: '/user/show/answers/:id',
+        component: lazy(() => import('../../views/showQ/UserAnswers')),
+        meta: {
+            authRoute: false,
+            title: 'User Answers'
+        }
+    },
+    {
+        path: '/periods',
+        component: lazy(() => import('../../views/Periods/')),
+        meta: {
+            authRoute: false,
+            title: 'Periods'
+        }
+    },
+    {
+        path: '/group/questions',
         component: lazy(() => import('../../views/qGroups')),
         meta: {
             authRoute: false,
-            title: 'Question Groups'
+            title: 'Question management'
         }
     },
     {

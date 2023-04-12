@@ -16,7 +16,7 @@ const DeleteAlertModal = ({toggle, openDeleteModal, deleteRout, setIsUpdate, isU
     return (
         <div>
             <Modal centered isOpen={openDeleteModal} toggle={toggle}>
-                <ModalHeader toggle={toggle}>Modal title</ModalHeader>
+                <ModalHeader toggle={toggle}>Alert</ModalHeader>
                 <ModalBody>
                     <span className='text-danger'>Are you sure to delete this record!</span>
                 </ModalBody>

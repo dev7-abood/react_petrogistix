@@ -12,7 +12,7 @@ const AppCollapse = props => {
   const { data, type, accordion, active, toggle, titleKey, contentKey, className } = props
 
   /**
-   ** If accordion is true then return only one active index.js else return an Array
+   ** If accordion is true then return only one active Permissions.js else return an Array
    */
   const defaultActive = () => {
     if (accordion) {

@@ -22,7 +22,7 @@ const navbarReducer = (state = initialState, action) => {
         }
       })
 
-      // ** Get index.js to add or remove bookmark from array
+      // ** Get Permissions.js to add or remove bookmark from array
       const bookmarkIndex = state.bookmarks.findIndex(x => x.id === action.id)
 
       if (bookmarkIndex === -1) {

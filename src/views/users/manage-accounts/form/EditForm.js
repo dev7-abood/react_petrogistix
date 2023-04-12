@@ -1,39 +1,64 @@
 // ** React Import
-import { useState } from 'react'
+import {useState, useEffect} from 'react'
 
 // ** Custom Components
 import Sidebar from '@components/sidebar'
 
 // ** Utils
-import { isObjEmpty } from '@utils'
+import {isObjEmpty} from '@utils'
 
 // ** Third Party Components
 import classnames from 'classnames'
-import { useForm } from 'react-hook-form'
-import { Button, FormGroup, Label, FormText, Form, Input, Alert } from 'reactstrap'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { toast } from 'react-toastify'
+import {useForm} from 'react-hook-form'
+import {Button, FormGroup, Label, FormText, Form, Input, Alert} from 'reactstrap'
+import {yupResolver} from '@hookform/resolvers/yup'
+import {toast} from 'react-toastify'
 import * as yup from 'yup'
 import axios from 'axios'
 
 // ** Store & Actions
 
-const EditForm = ({ open, toggleSidebar, data }) => {
+const EditForm = ({open, toggleSidebar, data}) => {
 
     const SignupSchema = yup.object().shape({
-        email : yup.string().required().email(),
-        first_name : yup.string().required(),
-        last_name : yup.string().required()
+        email: yup.string().required().email(),
+        first_name: yup.string().required(),
+        last_name: yup.string().required(),
+        job: yup.string().required(),
+        departments: yup.array().required()
     })
 
-    const { register, errors, handleSubmit, control, setValue, trigger } = useForm({
+    const {register, errors, handleSubmit, control, setValue, trigger} = useForm({
         resolver: yupResolver(SignupSchema)
     })
 
+    const [jobs, setJobs] = useState([])
+    const [departments, setDepartment] = useState([])
+
+    useEffect(_ => {
+        (async _ => {
+            try {
+                const res = await axios.get(`/job/list/`)
+                setJobs(res.data.results)
+            } catch (err) {
+
+            }
+        })()
+    }, [])
+
+    useEffect(_ => {
+        (async _ => {
+            try {
+                const res = await axios.get(`/department/list/`)
+                setDepartment(res.data.results)
+            } catch (err) {
+
+            }
+        })()
+    }, [])
+
     const onSubmit = async form_data => {
         trigger()
-        console.log(form_data)
-        console.log(data)
         try {
             await axios.patch(`/user/update/${data.id}/`, form_data, {
                 headers: {
@@ -59,6 +84,20 @@ const EditForm = ({ open, toggleSidebar, data }) => {
         >
             <Form action='/' className='auth-register-form mt-2' onSubmit={handleSubmit(onSubmit)}>
                 <FormGroup>
+                    <Label for='email'>
+                        Email <span className='text-danger'>*</span>
+                    </Label>
+                    <Input
+                        defaultValue={data.email}
+                        type='email'
+                        name='email'
+                        id='email'
+                        placeholder='john.doe@example.com'
+                        innerRef={register({required: true})}
+                        className={classnames({'is-invalid': errors['email']})}
+                    />
+                </FormGroup>
+                <FormGroup>
                     <Label for='username'>
                         Username
                     </Label>
@@ -78,8 +117,8 @@ const EditForm = ({ open, toggleSidebar, data }) => {
                         name='first_name'
                         id='first_name'
                         placeholder='John'
-                        innerRef={register({ required: true })}
-                        className={classnames({ 'is-invalid': errors['first_name'] })}
+                        innerRef={register({required: true})}
+                        className={classnames({'is-invalid': errors['first_name']})}
                     />
                 </FormGroup>
                 <FormGroup>
@@ -91,37 +130,40 @@ const EditForm = ({ open, toggleSidebar, data }) => {
                         name='last_name'
                         id='last_name'
                         placeholder='Doe'
-                        innerRef={register({ required: true })}
-                        className={classnames({ 'is-invalid': errors['last_name'] })}
+                        innerRef={register({required: true})}
+                        className={classnames({'is-invalid': errors['last_name']})}
                     />
                 </FormGroup>
                 <FormGroup>
-                    <Label for='email'>
-                        Email <span className='text-danger'>*</span>
-                    </Label>
+                    <Label htmlFor='job'>Job</Label>
                     <Input
-                        defaultValue={data.email}
-                        type='email'
-                        name='email'
-                        id='email'
-                        placeholder='john.doe@example.com'
-                        innerRef={register({ required: true })}
-                        className={classnames({ 'is-invalid': errors['email'] })}
-                    />
-                    <FormText color='muted'>You can use letters, numbers & periods</FormText>
+                        type='select'
+                        name='job'
+                        id='job'
+                        innerRef={register({required: true})}
+                        className={classnames({'is-invalid': errors['job']})}
+                    >
+                        {jobs.reverse().map((el, index) => {
+                            return <option key={index} value={el.id}>{el.name}</option>
+                        })}
+                    </Input>
                 </FormGroup>
-                {/*<FormGroup>*/}
-                {/*    <Label for='contact'>*/}
-                {/*        Contact <span className='text-danger'>*</span>*/}
-                {/*    </Label>*/}
-                {/*    <Input*/}
-                {/*        name='contact'*/}
-                {/*        id='contact'*/}
-                {/*        placeholder='(397) 294-5153'*/}
-                {/*        innerRef={register({ required: true })}*/}
-                {/*        className={classnames({ 'is-invalid': errors['contact'] })}*/}
-                {/*    />*/}
-                {/*</FormGroup>*/}
+                <FormGroup>
+                    <Label htmlFor='Departments'>Departments</Label>
+                    <Input
+                        multiple
+                        required
+                        type='select'
+                        name='departments'
+                        id='departments'
+                        innerRef={register({required: true})}
+                        className={classnames({'is-invalid': errors['departments']})}
+                    >
+                        {departments.map((el, index) => {
+                            return <option key={index} value={el.id}>{el.name}</option>
+                        })}
+                    </Input>
+                </FormGroup>
                 <Button type='submit' className='mr-1' color='primary'>
                     Submit
                 </Button>

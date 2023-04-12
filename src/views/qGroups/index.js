@@ -16,8 +16,10 @@ import {useState, useEffect} from 'react';
 import DeleteAlertModal from "@c/DeleteAlertModal";
 import {useHistory} from "react-router-dom";
 import {FaRegFilePowerpoint} from 'react-icons/fa';
-import {BsClockHistory} from 'react-icons/bs';
-import PeriodsModal from './PeriodsModal'
+import {BiDuplicate} from 'react-icons/bi';
+import DuplicateModal from './DuplicateModal'
+import '@styles/react/libs/react-select/_react-select.scss'
+import '@styles/react/libs/tables/react-dataTable-component.scss'
 
 const Job = _ => {
 
@@ -32,6 +34,8 @@ const Job = _ => {
 
     const [data, setData] = useState([])
     const [editData, setEditData] = useState({})
+
+    const [groupId, setGroupId] = useState(null)
 
 
     useEffect(_ => {
@@ -54,28 +58,44 @@ const Job = _ => {
         setEditData(row)
     }
 
+    const [periods, setPeriods] = useState([])
+    useEffect(_ => {
+        (async _ => {
+            try {
+                const res = await axios.get(`/period/list/`)
+                setPeriods(res.data.results)
+            } catch (err) {
+
+            }
+        })()
+    }, [isUpdate])
+
     const columns = [{
         name: 'Group Name', selector: row => row.name,
+    }, {
+        name: 'Period', selector: row => row.period !== null ? row.period : '-',
+    }, {
+        name: 'Subgroup Name', selector: row => row.sub_group !== null ? row.sub_group : '-',
     }, {
         name: 'Status',
         selector: row => row.status === 1 ? <span className='text-success'>Active</span> :
             <span className='text-danger'>Disabled</span>,
     }, {
-        name: 'Actions', minWidth: '100px', cell: row => (<UncontrolledDropdown>
+        name: 'Actions', minWidth: '100px', cell: row => (<UncontrolledDropdown direction={'down'}>
             <DropdownToggle tag='div' className='btn btn-sm'>
                 <MoreVertical size={14} className='cursor-pointer'/>
             </DropdownToggle>
             <DropdownMenu right>
                 <DropdownItem
                     className='w-100'
-                    onClick={_ => history.push(`/q-permissions/${row.id}`, {data: row})}
+                    onClick={_ => history.push(`/group/permissions/${row.id}`, {row})}
                 >
                     <FaRegFilePowerpoint size={14} className='mr-50'/>
                     <span className='align-middle'>Permissions</span>
                 </DropdownItem>
                 <DropdownItem
                     className='w-100'
-                    onClick={_ => history.push("/create-questions", {data: row})}
+                    onClick={_ => history.push("/create/questions", {data: row})}
                 >
                     <Archive size={14} className='mr-50'/>
                     <span className='align-middle'>Questions</span>
@@ -83,10 +103,13 @@ const Job = _ => {
 
                 <DropdownItem
                     className='w-100'
-                    onClick={_ => setOpenPeriodsModal(!openPeriodsModal)}
+                    onClick={_ => {
+                        setGroupId(row.id)
+                        setOpenPeriodsModal(!openPeriodsModal)
+                    }}
                 >
-                    <BsClockHistory size={14} className='mr-50'/>
-                    <span className='align-middle'>Periods</span>
+                    <BiDuplicate size={14} className='mr-50'/>
+                    <span className='align-middle'>Duplicate</span>
                 </DropdownItem>
 
                 <DropdownItem
@@ -111,8 +134,8 @@ const Job = _ => {
     }];
 
     return (<>
-        <Breadcrumbs breadCrumbTitle='Question Groups' breadCrumbParent='Dashboard'
-                     breadCrumbActive='Question Groups'/>
+        <Breadcrumbs breadCrumbTitle='Question management' breadCrumbParent='Dashboard'
+                     breadCrumbActive='Question management'/>
         <Card>
             <Create
                 open={createSidebarOpen}
@@ -120,6 +143,7 @@ const Job = _ => {
                 setIsUpdate={setIsUpdate}
                 isUpdate={isUpdate}
                 job={data}
+                periods={periods}
             />
             <Edit
                 open={editSidebarOpen}
@@ -127,6 +151,7 @@ const Job = _ => {
                 editData={editData}
                 setIsUpdate={setIsUpdate}
                 isUpdate={isUpdate}
+                periods={periods}
             />
             <DeleteAlertModal
                 openDeleteModal={openDeleteModal}
@@ -138,18 +163,21 @@ const Job = _ => {
                 job={data}
             />
 
-            <PeriodsModal
+            <DuplicateModal
                 setOpenPeriodsModal={_ => setOpenPeriodsModal(!openPeriodsModal)}
                 openPeriodsModal={openPeriodsModal}
+                groupId={groupId}
+                setIsUpdate={setIsUpdate}
+                isUpdate={isUpdate}
             />
 
             <CardBody>
                 <CardHeader>
-                    <p>Question Group Table</p>
+                    <p><strong>Question management</strong></p>
                     <Button onClick={createToggleSidebar} color='primary'>Add New Group</Button>
                 </CardHeader>
                 <DataTable
-                    className='py-5'
+                    className='py-4 react-dataTable'
                     noHeader
                     columns={columns}
                     data={data}

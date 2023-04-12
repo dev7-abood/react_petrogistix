@@ -32,6 +32,7 @@ const Datatable = _ => {
                     <DataTable
                         columns={columns}
                         data={data}
+                        className='react-dataTable'
                     />
                 </CardBody>
             </Card>

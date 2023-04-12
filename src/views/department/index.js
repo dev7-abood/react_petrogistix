@@ -21,7 +21,8 @@ import Edit from "./Edit";
 import axios from 'axios'
 import {useState, useEffect} from 'react';
 import DeleteAlertModal from "@c/DeleteAlertModal";
-
+import '@styles/react/libs/react-select/_react-select.scss'
+import '@styles/react/libs/tables/react-dataTable-component.scss'
 const Department = _ => {
 
     const [isUpdate, setIsUpdate] = useState(true)
@@ -120,6 +121,7 @@ const Department = _ => {
                     </CardHeader>
                     <DataTable
                         noHeader
+                        className='react-dataTable'
                         columns={columns}
                         data={data}
                     />
