@@ -101,7 +101,8 @@ const VerticalNavMenuGroup = ({
       className={classnames('nav-item has-sub', {
         open: openClassCondition(item.id),
         'menu-collapsed-open': groupActive.includes(item.id),
-        'sidebar-group-active': groupActive.includes(item.id) || groupOpen.includes(item.id)
+        'sidebar-group-active': groupActive.includes(item.id) || groupOpen.includes(item.id),
+        'd-none': item.isHidden
       })}
     >
       <Link className='d-flex align-items-center' to='/' onClick={e => onCollapseClick(e, item)}>

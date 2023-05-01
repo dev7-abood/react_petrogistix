@@ -36,12 +36,14 @@ const UserDropdown = () => {
     }, [])
 
     const [firstName, setFirstName] = useState('')
+    const [roleName, setRoleName] = useState('')
 
     useEffect(_ => {
         (async _ => {
             try {
                 const res = await axios.get('/user/get_user_info/')
                 setFirstName(res.data.data.first_name)
+                setRoleName(res.data.data.role)
             } catch (err) {
                 console.log(err)
             }
@@ -56,7 +58,7 @@ const UserDropdown = () => {
                 <div className='user-nav d-sm-flex d-none'>
                     <span
                         className='user-name font-weight-bold'>{(userData && userData['username']) || 'John Doe'}</span>
-                    {/*<span className='user-status'>{(userData && userData.role) || 'Admin'}</span>*/}
+                        <span className='user-status'>{roleName}</span>
                 </div>
                 <Avatar img={`https://ui-avatars.com/api/?name=${firstName}&color=7F9CF5&background=EBF4FF`} imgHeight='40'
                         imgWidth='40' status='online'/>

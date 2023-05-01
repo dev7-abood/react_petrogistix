@@ -2,14 +2,16 @@ import {Home, Users, Circle, Settings, Table, PieChart} from 'react-feather'
 import { BsBuildings, BsBagDash, BsQuestionSquare } from 'react-icons/bs';
 import { BiTimeFive } from 'react-icons/bi';
 import { CiViewTimeline } from 'react-icons/ci';
+import { TbListCheck } from 'react-icons/tb';
 
 export default [
-    {
-        id: 'home',
-        title: 'Dashboard',
-        icon: <Home size={20}/>,
-        navLink: '/home'
-    },
+    // {
+    //     id: 'home',
+    //     title: 'Dashboard',
+    //     icon: <Home size={20}/>,
+    //     navLink: '/home',
+    //     isHidden: false
+    // },
     {
         id: 'users',
         title: 'Users',
@@ -104,6 +106,12 @@ export default [
         title: 'Questions',
         icon: <CiViewTimeline size={20}/>,
         navLink: '/questions',
+    },
+    {
+        id: 'Evaluation',
+        title: 'Evaluation',
+        icon: <TbListCheck size={20}/>,
+        navLink: '/evaluation',
     },
     {
         id: 'Periods',

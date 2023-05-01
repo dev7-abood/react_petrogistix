@@ -2,7 +2,6 @@ import dateFormat  from "dateformat"
 import { useState, useEffect, memo } from 'react'
 import { Link } from 'react-router-dom'
 import {
-  Badge,
   UncontrolledDropdown,
   DropdownMenu,
   DropdownToggle,
@@ -20,7 +19,6 @@ import {
   MoreVertical,
   Download,
   Trash,
-  ChevronDown
 } from 'react-feather'
 
 import '../../table-style.css'
@@ -34,6 +32,11 @@ import { useSelector } from 'react-redux'
 import DeleteAlertModal from "./DeleteAlertModal";
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
+
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+
+
 const DataTableServerSide = () => {
   // ** Store Vars
 
@@ -193,7 +196,7 @@ const DataTableServerSide = () => {
           updateCollection={updateCollection}
           setUpdateCollection={setUpdateCollection}
       />
-      <Card>
+      {data.data ? <Card>
         <Row className='mx-0 mt-1 mb-50 my-3'>
           <Col sm='8'>
             FILES ACCESS KEY: {fileAccessKey}
@@ -203,14 +206,14 @@ const DataTableServerSide = () => {
               Search
             </Label>
             <Input
-              defaultValue={''}
-              className='dataTable-filter'
-              type='text'
-              bsSize='sm'
-              id='search-input'
-              onChange={e => {
-                e.target.value !== '' ? setSearchValue(`&s=${e.target.value}`) : setSearchValue('')
-              }}
+                defaultValue={''}
+                className='dataTable-filter'
+                type='text'
+                bsSize='sm'
+                id='search-input'
+                onChange={e => {
+                  e.target.value !== '' ? setSearchValue(`&s=${e.target.value}`) : setSearchValue('')
+                }}
             />
           </Col>
         </Row>
@@ -228,7 +231,7 @@ const DataTableServerSide = () => {
             onChangeRowsPerPage={onChangeRowsPerPage}
             paginationTotalRows={data.total}
         />
-      </Card>
+      </Card> : <Skeleton height='120px' count={2}/>}
     </>
   )
 }

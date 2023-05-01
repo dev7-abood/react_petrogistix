@@ -195,24 +195,6 @@ const Create = props => {
                                 />
                             </FormGroup>
                         </Col>
-                        <Col lg={1}>
-                            <FormGroup>
-                                <Label for='weight'>
-                                    Weight <span className='text-danger'>*</span>
-                                </Label>
-                                <Input
-                                    type='number'
-                                    name='weight[0]'
-                                    required
-                                    id='weight'
-                                    innerRef={register({required: true})}
-                                    className={classnames({'is-invalid': errors['weight']})}
-                                    defaultValue={!isNew ? parseInt(questions[0].weight) : 5}
-                                    max={5}
-                                    min={1}
-                                />
-                            </FormGroup>
-                        </Col>
                         <Col lg={3}>
                             <FormGroup>
                                 <Label for='permissions'>
@@ -288,7 +270,6 @@ const Create = props => {
                                         question_type: '',
                                         number_of_words: 30,
                                         right_answer: '',
-                                        weight: 5,
                                         permissions: ''
                                     }}
                                 />

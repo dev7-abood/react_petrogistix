@@ -116,24 +116,6 @@ const NewInput = ({
                         />
                     </FormGroup>
                 </Col>
-                <Col lg={1}>
-                    <FormGroup>
-                        <Label for='number_of_words'>
-                            Weight <span className='text-danger'>*</span>
-                        </Label>
-                        <Input
-                            type='number'
-                            name={`weight[${index}]`}
-                            id='weight'
-                            innerRef={register({required: true})}
-                            className={classnames({'is-invalid': errors['weight']})}
-                            defaultValue={parseInt(row.weight)}
-                            max={5}
-                            min={1}
-                            required
-                        />
-                    </FormGroup>
-                </Col>
                 <Col lg={3}>
                     <FormGroup>
                         <div className='position-relative'>

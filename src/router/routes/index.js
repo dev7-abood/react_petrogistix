@@ -4,18 +4,18 @@ import {lazy} from 'react'
 const TemplateTitle = '%s - Vuexy React Admin Template'
 
 // ** Default Route
-const DefaultRoute = '/home'
+const DefaultRoute = '/collections'
 
 // ** Merge Routes
 const Routes = [
-    {
-        path: '/home',
-        component: lazy(() => import('../../views/Home')),
-        meta: {
-            authRoute: false,
-            title: 'Home'
-        }
-    },
+    // {
+    //     path: '/home',
+    //     component: lazy(() => import('../../views/Home')),
+    //     meta: {
+    //         authRoute: false,
+    //         title: 'Home'
+    //     }
+    // },
     {
         path: '/department',
         component: lazy(() => import('../../views/department')),
@@ -58,7 +58,7 @@ const Routes = [
     },
     {
         path: '/answers-section',
-        component: lazy(() => import('../../views/answersSection/Datatable')),
+        component: lazy(() => import('../../views/evaluation/UserDatatable')),
         meta: {
             authRoute: false,
             title: 'Answer Section'
@@ -66,7 +66,7 @@ const Routes = [
     },
     {
         path: '/show-questions',
-        component: lazy(() => import('../../views/answersSection/')),
+        component: lazy(() => import('../../views/evaluation/')),
         meta: {
             authRoute: false,
             title: 'Show Questions'
@@ -167,6 +167,31 @@ const Routes = [
         meta: {
             authRoute: false,
             title: 'Periods'
+        }
+    },
+    {
+        path: '/evaluation',
+        component: lazy(() => import('../../views/evaluation/')),
+        exact: true,
+        meta: {
+            authRoute: false,
+            title: 'Evaluation'
+        }
+    },
+    {
+        path: '/evaluation/:user_id',
+        component: lazy(() => import('../../views/evaluation/QGroupDatatable')),
+        meta: {
+            authRoute: false,
+            title: 'Evaluate the set of questions'
+        }
+    },
+    {
+        path: '/set/evaluation/:id/:user_id/:group_name',
+        component: lazy(() => import('../../views/setEvaluation')),
+        meta: {
+            authRoute: false,
+            title: 'Evaluate the set of questions'
         }
     },
     {
