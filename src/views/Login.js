@@ -30,6 +30,11 @@ const Login = () => {
     const [isLoginError, setIsLoginError] = useState(false)
 
     const [userId, setUserId] = useState(null)
+
+    useEffect(_ => {
+        localStorage.setItem('permissions', '')
+    }, [])
+
     useEffect(_ => {
         if (userId !== null) {
             (async _ => {
@@ -110,14 +115,14 @@ const Login = () => {
                             />
                         </FormGroup>
                         <FormGroup>
-                            <div className='d-flex justify-content-between'>
-                                <Label className='form-label' for='password'>
-                                    Password
-                                </Label>
-                                <Link to='/'>
-                                    <small>Forgot Password?</small>
-                                </Link>
-                            </div>
+                            {/*<div className='d-flex justify-content-between'>*/}
+                            {/*    <Label className='form-label' for='password'>*/}
+                            {/*        Password*/}
+                            {/*    </Label>*/}
+                            {/*    <Link to='/'>*/}
+                            {/*        <small>Forgot Password?</small>*/}
+                            {/*    </Link>*/}
+                            {/*</div>*/}
                             <Input
                                 id='password'
                                 innerRef={register({required: true})}

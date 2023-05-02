@@ -69,6 +69,7 @@ const Router = () => {
      ** Final Route Component Checks for Login & User Role and then redirects to the route
      */
     const FinalRoute = props => {
+
         const route = props.route
         let action, resource
         const selector = useSelector(state => state.auth)
@@ -104,6 +105,9 @@ const Router = () => {
             }
         }, [siteName])
 
+        if (route.meta.can === false){
+            return <Redirect to='/home' />
+        }
 
         // ** Assign vars based on route meta
         if (route.meta) {

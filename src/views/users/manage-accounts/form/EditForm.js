@@ -18,13 +18,13 @@ import axios from 'axios'
 
 // ** Store & Actions
 
-const EditForm = ({open, toggleSidebar, data}) => {
+const EditForm = ({open, toggleSidebar, data, userDefaultJobAndDepartmentsData}) => {
 
     const SignupSchema = yup.object().shape({
         email: yup.string().required().email(),
         first_name: yup.string().required(),
         last_name: yup.string().required(),
-        job: yup.string().required(),
+        job_id: yup.string().required(),
         departments: yup.array().required()
     })
 
@@ -59,8 +59,9 @@ const EditForm = ({open, toggleSidebar, data}) => {
 
     const onSubmit = async form_data => {
         trigger()
+        console.log(form_data)
         try {
-            await axios.patch(`/user/update/${data.id}/`, form_data, {
+            await axios.put(`/user/custom_update/${data.id}/`, form_data, {
                 headers: {
                     Accept: 'application/json'
                 }
@@ -138,12 +139,13 @@ const EditForm = ({open, toggleSidebar, data}) => {
                     <Label htmlFor='job'>Job</Label>
                     <Input
                         type='select'
-                        name='job'
-                        id='job'
+                        name='job_id'
+                        id='job_id'
                         innerRef={register({required: true})}
-                        className={classnames({'is-invalid': errors['job']})}
+                        className={classnames({'is-invalid': errors['job_id']})}
+                        defaultValue={userDefaultJobAndDepartmentsData.job_id}
                     >
-                        {jobs.reverse().map((el, index) => {
+                        {jobs.map((el, index) => {
                             return <option key={index} value={el.id}>{el.name}</option>
                         })}
                     </Input>
@@ -158,6 +160,7 @@ const EditForm = ({open, toggleSidebar, data}) => {
                         id='departments'
                         innerRef={register({required: true})}
                         className={classnames({'is-invalid': errors['departments']})}
+                        defaultValue={userDefaultJobAndDepartmentsData.departments}
                     >
                         {departments.map((el, index) => {
                             return <option key={index} value={el.id}>{el.name}</option>

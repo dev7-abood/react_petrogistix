@@ -46,28 +46,18 @@ axios.defaults.baseURL = env.API_BASE_URL
 
 // Add a request interceptor
 
-// if (window.location.pathname !== '/login') {
-//     axios.interceptors.request.use(config => {
-//
-//         if (localStorage.getItem('access_tk')) {
-//             config.headers['Accept'] = 'application/json'
-//
-//             config.headers.Authorization = `Bearer ${localStorage.getItem('access_tk')}`
-//             // console.log('Intercepting the request before sending it', config)
-//             return config // nxt jwt.php
-//         }
-//
-//     }, error => {
-//         // console.log("Request error: ", error)
-//         return Promise.reject(error)
-//     })
-// }
+// axios.interceptors.request.use(config => {
+//     // axios.get(`/c_permission/get_user_selected_permissions/`).then(res => console.log(res))
+// }, error => {
+//     // console.log("Request error: ", error)
+//     return Promise.reject(error)
+// })
 
 // Add a response interceptor
 // axios.interceptors.response.use(response => {
 //     // Any status code that lie within the range of 2xx cause this function to trigger
 //     // Do something with response data
-//     console.log(response)
+//     response.get('/c_permission/get_user_selected_permissions/').then(res => console.log(res))
 //     return response;
 // }, function (error) {
 //     // Any status codes that falls outside the range of 2xx cause this function to trigger

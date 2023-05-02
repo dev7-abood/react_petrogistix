@@ -20,6 +20,7 @@ import {BiDuplicate} from 'react-icons/bi';
 import DuplicateModal from './DuplicateModal'
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
+import Can from '@c/Can'
 
 const Job = _ => {
 
@@ -86,49 +87,55 @@ const Job = _ => {
                 <MoreVertical size={14} className='cursor-pointer'/>
             </DropdownToggle>
             <DropdownMenu right>
-                <DropdownItem
-                    className='w-100'
-                    onClick={_ => history.push(`/group/permissions/${row.id}`, {row})}
-                >
-                    <FaRegFilePowerpoint size={14} className='mr-50'/>
-                    <span className='align-middle'>Permissions</span>
-                </DropdownItem>
-                <DropdownItem
-                    className='w-100'
-                    onClick={_ => history.push("/create/questions", {data: row})}
-                >
-                    <Archive size={14} className='mr-50'/>
-                    <span className='align-middle'>Questions</span>
-                </DropdownItem>
-
-                <DropdownItem
-                    className='w-100'
-                    onClick={_ => {
-                        setGroupId(row.id)
-                        setOpenPeriodsModal(!openPeriodsModal)
-                    }}
-                >
-                    <BiDuplicate size={14} className='mr-50'/>
-                    <span className='align-middle'>Duplicate</span>
-                </DropdownItem>
-
-                <DropdownItem
-                    onClick={_ => editToggleSidebar(row)}
-                    className='w-100'
-                >
-                    <Archive size={14} className='mr-50'/>
-                    <span className='align-middle'>Edit</span>
-                </DropdownItem>
-                <DropdownItem
-                    className='w-100'
-                    onClick={_ => {
-                        toggle()
-                        setDeleteRout(`/group/delete/${row.id}/`)
-                    }}
-                >
-                    <Trash2 size={14} className='mr-50'/>
-                    <span className='align-middle'>Delete</span>
-                </DropdownItem>
+                <Can have={['QUESTIONMANAGEMENT_EDIT']}>
+                    <DropdownItem
+                        className='w-100'
+                        onClick={_ => history.push(`/group/permissions/${row.id}`, {row})}
+                    >
+                        <FaRegFilePowerpoint size={14} className='mr-50'/>
+                        <span className='align-middle'>Permissions</span>
+                    </DropdownItem>
+                </Can>
+                <Can have={['QUESTIONMANAGEMENT_ADD']}>
+                    <DropdownItem
+                        className='w-100'
+                        onClick={_ => history.push("/create/questions", {data: row})}
+                    >
+                        <Archive size={14} className='mr-50'/>
+                        <span className='align-middle'>Questions</span>
+                    </DropdownItem>
+                </Can>
+                <Can have={['QUESTIONMANAGEMENT_EDIT']}>
+                    <DropdownItem
+                        className='w-100'
+                        onClick={_ => {
+                            setGroupId(row.id)
+                            setOpenPeriodsModal(!openPeriodsModal)
+                        }}
+                    >
+                        <BiDuplicate size={14} className='mr-50'/>
+                        <span className='align-middle'>Duplicate</span>
+                    </DropdownItem>
+                    <DropdownItem
+                        onClick={_ => editToggleSidebar(row)}
+                        className='w-100'
+                    >
+                        <Archive size={14} className='mr-50'/>
+                        <span className='align-middle'>Edit</span>
+                    </DropdownItem>
+                </Can>
+                <Can have={['QUESTIONMANAGEMENT_DELETE']}>
+                    <DropdownItem
+                        className='w-100'
+                        onClick={_ => {
+                            toggle()
+                            setDeleteRout(`/group/delete/${row.id}/`)
+                        }}
+                    >
+                        <Trash2 size={14} className='mr-50'/>
+                        <span className='align-middle'>Delete</span>
+                    </DropdownItem>
+                </Can>
             </DropdownMenu>
         </UncontrolledDropdown>)
     }];
@@ -137,32 +144,37 @@ const Job = _ => {
         <Breadcrumbs breadCrumbTitle='Question management' breadCrumbParent='Dashboard'
                      breadCrumbActive='Question management'/>
         <Card>
-            <Create
-                open={createSidebarOpen}
-                toggleSidebar={createToggleSidebar}
-                setIsUpdate={setIsUpdate}
-                isUpdate={isUpdate}
-                job={data}
-                periods={periods}
-            />
-            <Edit
-                open={editSidebarOpen}
-                toggleSidebar={editToggleSidebar}
-                editData={editData}
-                setIsUpdate={setIsUpdate}
-                isUpdate={isUpdate}
-                periods={periods}
-            />
-            <DeleteAlertModal
-                openDeleteModal={openDeleteModal}
-                setOpenDeleteModal={setOpenDeleteModal}
-                toggle={toggle}
-                deleteRout={deleteRout}
-                isUpdate={isUpdate}
-                setIsUpdate={setIsUpdate}
-                job={data}
-            />
-
+            <Can have={['QUESTIONMANAGEMENT_ADD']}>
+                <Create
+                    open={createSidebarOpen}
+                    toggleSidebar={createToggleSidebar}
+                    setIsUpdate={setIsUpdate}
+                    isUpdate={isUpdate}
+                    job={data}
+                    periods={periods}
+                />
+            </Can>
+            <Can have={['QUESTIONMANAGEMENT_EDIT']}>
+                <Edit
+                    open={editSidebarOpen}
+                    toggleSidebar={editToggleSidebar}
+                    editData={editData}
+                    setIsUpdate={setIsUpdate}
+                    isUpdate={isUpdate}
+                    periods={periods}
+                />
+            </Can>
+            <Can have={['QUESTIONMANAGEMENT_DELETE']}>
+                <DeleteAlertModal
+                    openDeleteModal={openDeleteModal}
+                    setOpenDeleteModal={setOpenDeleteModal}
+                    toggle={toggle}
+                    deleteRout={deleteRout}
+                    isUpdate={isUpdate}
+                    setIsUpdate={setIsUpdate}
+                    job={data}
+                />
+            </Can>
             <DuplicateModal
                 setOpenPeriodsModal={_ => setOpenPeriodsModal(!openPeriodsModal)}
                 openPeriodsModal={openPeriodsModal}
@@ -174,7 +186,9 @@ const Job = _ => {
             <CardBody>
                 <CardHeader>
                     <p><strong>Question management</strong></p>
-                    <Button onClick={createToggleSidebar} color='primary'>Add New Group</Button>
+                    <Can have={['QUESTIONMANAGEMENT_ADD']}>
+                        <Button onClick={createToggleSidebar} color='primary'>Add New Group</Button>
+                    </Can>
                 </CardHeader>
                 <DataTable
                     className='py-4 react-dataTable'

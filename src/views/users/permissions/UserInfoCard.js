@@ -4,14 +4,14 @@ import {User, Check, Mail} from 'react-feather'
 import axios from 'axios'
 import {useEffect, useState} from 'react'
 
-const UserInfoCard = _ => {
+const UserInfoCard = ({userId}) => {
 
     const [userInfo, setUserInfo] = useState([])
 
     useEffect(_ => {
         (async _ => {
             try {
-                const res = await axios.get('/user/get_user_info/')
+                const res = await axios.get(`/user/get_user_info/?user_id=${userId}`)
                 setUserInfo(res.data.data)
             } catch (err) {
                 console.log(err)

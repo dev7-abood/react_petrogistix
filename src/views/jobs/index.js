@@ -16,6 +16,7 @@ import {useState, useEffect} from 'react';
 import DeleteAlertModal from "@c/DeleteAlertModal";
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
+import Can from '@c/Can'
 const Job = _ => {
 
     const [isUpdate, setIsUpdate] = useState(true)
@@ -96,7 +97,7 @@ const Job = _ => {
         selector: row => row.evaluation === 1 ? <span className='text-success'>Can</span> :
             <span className='text-danger'>Can't</span>,
     }, {
-        name: 'Priority', selector: row => <Input onChange={e => onChangePriority(row.id, row.priority, e.target.value)}
+        name: 'Priority', selector: row => <Can have={['JOB_EDIT']}><Input onChange={e => onChangePriority(row.id, row.priority, e.target.value)}
                                                   defaultValue={row.priority} type='select'>
             {[...Array(rowLength)].map((el, index) => {
                 if (index + 1 === row.priority) {
@@ -104,30 +105,34 @@ const Job = _ => {
                 }
                 return <option value={index + 1} key={index}>{index + 1}</option>
             })}
-        </Input>
+        </Input></Can>
     }, {
         name: 'Actions', minWidth: '100px', cell: row => (<UncontrolledDropdown>
             <DropdownToggle tag='div' className='btn btn-sm'>
                 <MoreVertical size={14} className='cursor-pointer'/>
             </DropdownToggle>
             <DropdownMenu right>
-                <DropdownItem
-                    onClick={_ => editToggleSidebar(row)}
-                    className='w-100'
-                >
-                    <Archive size={14} className='mr-50'/>
-                    <span className='align-middle'>Edit</span>
-                </DropdownItem>
-                <DropdownItem
-                    className='w-100'
-                    onClick={_ => {
-                        toggle()
-                        setDeleteRout(`/job/delete/${row.id}/`)
-                    }}
-                >
-                    <Trash2 size={14} className='mr-50'/>
-                    <span className='align-middle'>Delete</span>
-                </DropdownItem>
+                <Can have={['JOB_EDIT']}>
+                    <DropdownItem
+                        onClick={_ => editToggleSidebar(row)}
+                        className='w-100'
+                    >
+                        <Archive size={14} className='mr-50'/>
+                        <span className='align-middle'>Edit</span>
+                    </DropdownItem>
+                </Can>
+                <Can have={['JOB_DELETE']}>
+                    <DropdownItem
+                        className='w-100'
+                        onClick={_ => {
+                            toggle()
+                            setDeleteRout(`/job/delete/${row.id}/`)
+                        }}
+                    >
+                        <Trash2 size={14} className='mr-50'/>
+                        <span className='align-middle'>Delete</span>
+                    </DropdownItem>
+                </Can>
             </DropdownMenu>
         </UncontrolledDropdown>)
     }];
@@ -164,7 +169,9 @@ const Job = _ => {
             <CardBody>
                 <CardHeader>
                     <p>Jobs Table</p>
-                    <Button onClick={createToggleSidebar} color='primary'>Add New Job</Button>
+                    <Can have={['JOB_ADD']}>
+                        <Button onClick={createToggleSidebar} color='primary'>Add New Job</Button>
+                    </Can>
                 </CardHeader>
                 <div className='d-flex'>
                     <p className='mx-1'><strong>Priorities: </strong></p>

@@ -5,23 +5,25 @@ const TemplateTitle = '%s - Vuexy React Admin Template'
 
 // ** Default Route
 const DefaultRoute = '/collections'
+import {can} from '@utils'
 
 // ** Merge Routes
 const Routes = [
-    // {
-    //     path: '/home',
-    //     component: lazy(() => import('../../views/Home')),
-    //     meta: {
-    //         authRoute: false,
-    //         title: 'Home'
-    //     }
-    // },
+    {
+        path: '/home',
+        component: lazy(() => import('../../views/Home')),
+        meta: {
+            authRoute: false,
+            title: 'Home'
+        }
+    },
     {
         path: '/department',
         component: lazy(() => import('../../views/department')),
         meta: {
             authRoute: false,
-            title: 'Departments'
+            title: 'Departments',
+            can: can(['DEPARTMENTS_READ', 'DEPARTMENTS_ADD', 'DEPARTMENTS_EDIT', 'DEPARTMENTS_DELETE']),
         }
     },
     {
@@ -29,7 +31,8 @@ const Routes = [
         component: lazy(() => import('../../views/jobs')),
         meta: {
             authRoute: false,
-            title: 'Jobs'
+            title: 'Jobs',
+            can: can(['JOB_READ', 'JOB_ADD', 'JOB_EDIT', 'JOB_DELETE'])
         }
     },
     {
@@ -37,7 +40,8 @@ const Routes = [
         component: lazy(() => import('../../views/qGroups/Permissions')),
         meta: {
             authRoute: false,
-            title: 'Group Permissions'
+            title: 'Group Permissions',
+            can: can(['QUESTIONMANAGEMENT_READ', 'QUESTIONMANAGEMENT_EDIT'])
         }
     },
     {
@@ -45,7 +49,8 @@ const Routes = [
         component: lazy(() => import('../../views/q/Create')),
         meta: {
             authRoute: false,
-            title: 'Create Questions'
+            title: 'Create Questions',
+            can: can(['QUESTIONMANAGEMENT_ADD', 'QUESTIONMANAGEMENT_EDIT'])
         }
     },
     {
@@ -53,7 +58,8 @@ const Routes = [
         component: lazy(() => import('../../views/showQ/')),
         meta: {
             authRoute: false,
-            title: 'Questions'
+            title: 'Questions',
+            can: can(['QUESTIONS_READ'])
         }
     },
     {
@@ -61,15 +67,8 @@ const Routes = [
         component: lazy(() => import('../../views/evaluation/UserDatatable')),
         meta: {
             authRoute: false,
-            title: 'Answer Section'
-        }
-    },
-    {
-        path: '/show-questions',
-        component: lazy(() => import('../../views/evaluation/')),
-        meta: {
-            authRoute: false,
-            title: 'Show Questions'
+            title: 'Answer Section',
+            can: can(['ANSWERSECTION_READ'])
         }
     },
     {
@@ -77,7 +76,8 @@ const Routes = [
         component: lazy(() => import('../../views/data-extraction/index')),
         meta: {
             authRoute: false,
-            title: 'Collections'
+            title: 'Collections',
+            can: can(['COLLECTION_READ'])
         }
     },
     {
@@ -85,7 +85,8 @@ const Routes = [
         component: lazy(() => import('../../views/data-extraction/html-files/index')),
         meta: {
             authRoute: false,
-            title: 'Html Files'
+            title: 'Html Files',
+            can: can(['COLLECTION_READ'])
         }
     },
     {
@@ -93,7 +94,8 @@ const Routes = [
         component: lazy(() => import('../../views/settings/logo')),
         meta: {
             authRoute: false,
-            title: 'logo'
+            title: 'logo',
+            can: can(['SETTINGS_READ', 'SETTINGS_ADD', 'SETTINGS_EDIT'])
         }
     },
     {
@@ -101,7 +103,9 @@ const Routes = [
         component: lazy(() => import('../../views/settings/site-name')),
         meta: {
             authRoute: false,
-            title: 'Site Name'
+            title: 'Site Name',
+            can: can(['SETTINGS_READ', 'SETTINGS_ADD', 'SETTINGS_EDIT'])
+
         }
     },
     {
@@ -109,7 +113,8 @@ const Routes = [
         component: lazy(() => import('../../views/settings/favicon')),
         meta: {
             authRoute: false,
-            title: 'Favicon'
+            title: 'Favicon',
+            can: can(['SETTINGS_READ', 'SETTINGS_ADD', 'SETTINGS_EDIT'])
         }
     },
     {
@@ -126,7 +131,8 @@ const Routes = [
         exact: true,
         meta: {
             authRoute: false,
-            title: 'Manage Accounts'
+            title: 'Manage Accounts',
+            can: can(['USER_READ'])
         }
     },
     {
@@ -134,7 +140,8 @@ const Routes = [
         component: lazy(() => import('../../views/users/permissions/Index')),
         meta: {
             authRoute: false,
-            title: 'Permissions'
+            title: 'Permissions',
+            can: can(['USER_EDIT'])
         }
     },
     {
@@ -142,15 +149,17 @@ const Routes = [
         component: lazy(() => import('../../views/charts/rig')),
         meta: {
             authRoute: false,
-            title: 'Rig Chart'
+            title: 'Rig Chart',
+            can: can(['CHARTS_READ'])
         }
     },
     {
-        path: '/show-q',
-        component: lazy(() => import('../../views/showQ')),
+        path: '/charts/chemicals',
+        component: lazy(() => import('../../views/charts/chemical')),
         meta: {
             authRoute: false,
-            title: 'Show questions'
+            title: 'Chemicals Chart',
+            can: can(['CHARTS_READ'])
         }
     },
     {
@@ -158,7 +167,8 @@ const Routes = [
         component: lazy(() => import('../../views/showQ/UserAnswers')),
         meta: {
             authRoute: false,
-            title: 'User Answers'
+            title: 'User Answers',
+            can: can(['ANSWERSECTION_READ'])
         }
     },
     {
@@ -166,7 +176,8 @@ const Routes = [
         component: lazy(() => import('../../views/Periods/')),
         meta: {
             authRoute: false,
-            title: 'Periods'
+            title: 'Periods',
+            can: can(['PERIODS_READ'])
         }
     },
     {
@@ -175,7 +186,8 @@ const Routes = [
         exact: true,
         meta: {
             authRoute: false,
-            title: 'Evaluation'
+            title: 'Evaluation',
+            can: can(['EVALUATION_READ'])
         }
     },
     {
@@ -183,7 +195,8 @@ const Routes = [
         component: lazy(() => import('../../views/evaluation/QGroupDatatable')),
         meta: {
             authRoute: false,
-            title: 'Evaluate the set of questions'
+            title: 'Evaluate the set of questions',
+            can: can(['EVALUATION_READ'])
         }
     },
     {
@@ -191,7 +204,8 @@ const Routes = [
         component: lazy(() => import('../../views/setEvaluation')),
         meta: {
             authRoute: false,
-            title: 'Evaluate the set of questions'
+            title: 'Evaluate the set of questions',
+            can: can(['EVALUATION_READ', 'EVALUATION_ADD'])
         }
     },
     {
@@ -199,17 +213,11 @@ const Routes = [
         component: lazy(() => import('../../views/qGroups')),
         meta: {
             authRoute: false,
-            title: 'Question management'
+            title: 'Question management',
+            can: can(['QUESTIONMANAGEMENT_READ', 'QUESTIONMANAGEMENT_ADD'])
         }
     },
-    {
-        path: '/charts/chemicals',
-        component: lazy(() => import('../../views/charts/chemical')),
-        meta: {
-            authRoute: false,
-            title: 'Chemicals Chart'
-        }
-    },
+
     {
         path: '/login',
         component: lazy(() => import('../../views/Login')),

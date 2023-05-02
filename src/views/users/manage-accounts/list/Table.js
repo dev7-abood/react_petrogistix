@@ -32,30 +32,34 @@ import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 
 import DeleteAlertModal from "@c/DeleteAlertModal";
+import Can from "@c/Can";
 
 // ** Table Header
 const CustomHeader = ({toggleSidebar, handlePerPage, rowsPerPage, handleFilter, searchTerm}) => {
 
     return (<div className='mx-2 mb-1'>
-            <Row>
-                <Col xl='6' className='d-flex align-items-center'>
+        <Row>
+            <Col xl='6' className='d-flex align-items-center'>
+                <Can have={['USER_ADD']}>
                     <Button.Ripple color='primary' onClick={toggleSidebar}>
                         Add New User
                     </Button.Ripple>
-                </Col>
-                <Col
-                    xl='6'
-                    className='d-flex align-items-start justify-content-lg-end justify-content-start flex-lg-nowrap flex-wrap flex-sm-row flex-column'
-                >
-                </Col>
-            </Row>
-        </div>)
+                </Can>
+            </Col>
+            <Col
+                xl='6'
+                className='d-flex align-items-start justify-content-lg-end justify-content-start flex-lg-nowrap flex-wrap flex-sm-row flex-column'
+            >
+            </Col>
+        </Row>
+    </div>)
 }
 
 const UsersList = () => {
     // ** Store Vars
 
     // ** States
+    const [userIdSelected, setUserIdSelected] = useState(null)
     const [searchTerm, setSearchTerm] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
     const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -70,6 +74,23 @@ const UsersList = () => {
     const createToggleSidebar = () => setCreateSidebarOpen(!createSidebarOpen)
     const editToggleSidebar = () => setEditSidebarOpen(!editSidebarOpen)
 
+    const [userDefaultJobAndDepartmentsData, setUserDefaultJobAndDepartmentsData] = useState({
+        job_id: 1,
+        departments: []
+    })
+    useEffect(_ => {
+        if (userIdSelected) {
+            (async _ => {
+                try {
+                    const res = await axios.get(`/user/get_have_jobs_and_departments/${userIdSelected}/`)
+                    setUserDefaultJobAndDepartmentsData(res.data.data)
+                } catch (err) {
+
+                }
+            })()
+        }
+    }, [userIdSelected])
+
     const [data, setData] = useState([])
 
     const columns = [{
@@ -80,10 +101,11 @@ const UsersList = () => {
         name: 'Last Name', selector: row => row.last_name,
     }, {
         name: 'Actions', minWidth: '100px', cell: row => (<UncontrolledDropdown>
-                <DropdownToggle tag='div' className='btn btn-sm'>
-                    <MoreVertical size={14} className='cursor-pointer'/>
-                </DropdownToggle>
-                <DropdownMenu right>
+            <DropdownToggle tag='div' className='btn btn-sm'>
+                <MoreVertical size={14} className='cursor-pointer'/>
+            </DropdownToggle>
+            <DropdownMenu right>
+                <Can have={['USER_EDIT']}>
                     <DropdownItem
                         tag={Link}
                         to={`/user/permissions/${row.id}`}
@@ -92,11 +114,16 @@ const UsersList = () => {
                         <FileText size={14} className='mr-50'/>
                         <span className='align-middle'>Permissions</span>
                     </DropdownItem>
+                </Can>
+                <Can have={['USER_EDIT']}>
                     <DropdownItem
 
                         onClick={_ => {
                             setEditFormData(row)
-                            editToggleSidebar()
+                            setUserIdSelected(row.id)
+                            setTimeout(_ => {
+                                editToggleSidebar()
+                            }, 1000)
                         }}
                         // tag={Link}
                         // to={`/apps/user/edit/${row.id}`}
@@ -105,7 +132,9 @@ const UsersList = () => {
                         <Archive size={14} className='mr-50'/>
                         <span className='align-middle'>Edit</span>
                     </DropdownItem>
-                    <DropdownItem className='w-100'
+                </Can>
+                <Can have={['USER_DELETE']}>
+                    <DropdownItem className={'w-100'}
                                   onClick={_ => {
                                       setDeleteAlertModal(!deleteAlertModal)
                                       setDeleteRoute(`/user/delete/${row.id}/`)
@@ -114,8 +143,10 @@ const UsersList = () => {
                         <Trash2 size={14} className='mr-50'/>
                         <span className='align-middle'>Delete</span>
                     </DropdownItem>
-                </DropdownMenu>
-            </UncontrolledDropdown>)
+                </Can>
+
+            </DropdownMenu>
+        </UncontrolledDropdown>)
     }];
 
     const [offset, setOffset] = useState(1)
@@ -139,45 +170,48 @@ const UsersList = () => {
     const onChangeRowsPerPage = rows => setLimit(rows)
 
     return (<>
-            <Card>
-                <DeleteAlertModal
-                    toggle={_ => setDeleteAlertModal(!deleteAlertModal)}
-                    openDeleteModal={deleteAlertModal}
-                    deleteRout={deleteRoute}
-                    setIsUpdate={setIsUpdate}
-                    isUpdate={isUpdate}
-                />
-                <Alert className={'p-1'} color='warning'>Note: Username can't update check it before make it.</Alert>
-                <CustomHeader
-                    toggleSidebar={createToggleSidebar}
-                    rowsPerPage={rowsPerPage}
-                    searchTerm={searchTerm}
-                />
-                <DataTable
-                    noHeader
-                    pagination
-                    responsive
-                    paginationServer
-                    columns={columns}
-                    className='react-dataTable'
-                    data={data}
-                    count={data.count}
-                    page={data.count}
-                    onChangePage={onChangePage}
-                    onChangeRowsPerPage={onChangeRowsPerPage}
-                    paginationTotalRows={data.total}
-                />
-            </Card>
-
-            <EditForm data={editFormData} open={editSidebarOpen} toggleSidebar={editToggleSidebar}/>
+        <Card>
+            <DeleteAlertModal
+                toggle={_ => setDeleteAlertModal(!deleteAlertModal)}
+                openDeleteModal={deleteAlertModal}
+                deleteRout={deleteRoute}
+                setIsUpdate={setIsUpdate}
+                isUpdate={isUpdate}
+            />
+            <Alert className={'p-1'} color='warning'>Note: Username can't update check it before make it.</Alert>
+            <CustomHeader
+                toggleSidebar={createToggleSidebar}
+                rowsPerPage={rowsPerPage}
+                searchTerm={searchTerm}
+            />
+            <DataTable
+                noHeader
+                pagination
+                responsive
+                paginationServer
+                columns={columns}
+                className='react-dataTable'
+                data={data}
+                count={data.count}
+                page={data.count}
+                onChangePage={onChangePage}
+                onChangeRowsPerPage={onChangeRowsPerPage}
+                paginationTotalRows={data.total}
+            />
+        </Card>
+        <Can have={['USER_EDIT']}>
+            <EditForm data={editFormData} userDefaultJobAndDepartmentsData={userDefaultJobAndDepartmentsData} open={editSidebarOpen} toggleSidebar={editToggleSidebar}/>
+        </Can>
+        <Can have={['USER_ADD']}>
             <CreateForm
                 open={createSidebarOpen}
                 toggleSidebar={createToggleSidebar}
                 isUpdate={isUpdate}
                 setIsUpdate={setIsUpdate}
             />
+        </Can>
 
-        </>)
+    </>)
 }
 
 export default UsersList

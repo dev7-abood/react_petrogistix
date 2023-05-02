@@ -13,6 +13,7 @@ import Edit from "./Edit";
 import axios from 'axios'
 import Breadcrumbs from '@components/breadcrumbs';
 import DeleteAlertModal from "@c/DeleteAlertModal";
+import Can from '@c/Can'
 const Periods = _ => {
 
     const [isUpdate, setIsUpdate] = useState(true)
@@ -55,23 +56,27 @@ const Periods = _ => {
                 <MoreVertical size={14} className='cursor-pointer'/>
             </DropdownToggle>
             <DropdownMenu right>
-                <DropdownItem
-                    onClick={_ => editToggleSidebar(row)}
-                    className='w-100'
-                >
-                    <Archive size={14} className='mr-50'/>
-                    <span className='align-middle'>Edit</span>
-                </DropdownItem>
-                <DropdownItem
-                    className='w-100'
-                    onClick={_ => {
-                        toggle()
-                        setDeleteRout(`/period/delete_period/${row.id}/`)
-                    }}
-                >
-                    <Trash2 size={14} className='mr-50'/>
-                    <span className='align-middle'>Delete</span>
-                </DropdownItem>
+                <Can have={['PERIODS_EDIT']}>
+                    <DropdownItem
+                        onClick={_ => editToggleSidebar(row)}
+                        className='w-100'
+                    >
+                        <Archive size={14} className='mr-50'/>
+                        <span className='align-middle'>Edit</span>
+                    </DropdownItem>
+                </Can>
+                <Can have={['PERIODS_DELETE']}>
+                    <DropdownItem
+                        className='w-100'
+                        onClick={_ => {
+                            toggle()
+                            setDeleteRout(`/period/delete_period/${row.id}/`)
+                        }}
+                    >
+                        <Trash2 size={14} className='mr-50'/>
+                        <span className='align-middle'>Delete</span>
+                    </DropdownItem>
+                </Can>
             </DropdownMenu>
         </UncontrolledDropdown>)
     }]
@@ -107,7 +112,9 @@ const Periods = _ => {
             <CardBody>
                 <CardHeader>
                     <p></p>
-                    <Button onClick={createToggleSidebar} siz={'sm'} color='primary'>Add New</Button>
+                    <Can have={['PERIODS_ADD']}>
+                        <Button onClick={createToggleSidebar} siz={'sm'} color='primary'>Add New</Button>
+                    </Can>
                 </CardHeader>
                 <DataTable
                     noHeader
