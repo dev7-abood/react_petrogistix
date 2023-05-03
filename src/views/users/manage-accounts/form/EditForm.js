@@ -10,7 +10,7 @@ import {isObjEmpty} from '@utils'
 // ** Third Party Components
 import classnames from 'classnames'
 import {useForm} from 'react-hook-form'
-import {Button, FormGroup, Label, FormText, Form, Input, Alert} from 'reactstrap'
+import {Button, FormGroup, Label, FormText, Form, Input, Alert, Spinner} from 'reactstrap'
 import {yupResolver} from '@hookform/resolvers/yup'
 import {toast} from 'react-toastify'
 import * as yup from 'yup'
@@ -57,9 +57,11 @@ const EditForm = ({open, toggleSidebar, data, userDefaultJobAndDepartmentsData})
         })()
     }, [])
 
+    const [isUpdate, setIsUpdate] = useState(false)
+
     const onSubmit = async form_data => {
         trigger()
-        console.log(form_data)
+        setIsUpdate(true)
         try {
             await axios.put(`/user/custom_update/${data.id}/`, form_data, {
                 headers: {
@@ -67,6 +69,8 @@ const EditForm = ({open, toggleSidebar, data, userDefaultJobAndDepartmentsData})
                 }
             })
             toast.success('The user has been registered successfully ✔');
+            setIsUpdate(false)
+            location.reload()
         } catch (err) {
             console.log(err);
             toast.error('Something wrong ❌');
@@ -168,7 +172,10 @@ const EditForm = ({open, toggleSidebar, data, userDefaultJobAndDepartmentsData})
                     </Input>
                 </FormGroup>
                 <Button type='submit' className='mr-1' color='primary'>
-                    Submit
+                    {isUpdate === true ? <>
+                        <Spinner color='white' size='sm'/>
+                        <span className='ml-50'>Updating...</span>
+                    </> : 'Update'}
                 </Button>
                 <Button type='reset' color='secondary' outline onClick={toggleSidebar}>
                     Cancel

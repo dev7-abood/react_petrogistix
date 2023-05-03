@@ -31,8 +31,12 @@ const NewInput = ({
     const [permissionsDefaultSelected, setPermissionsDefaultSelected] = useState([])
 
     useEffect(_ => {
-        setPermissionsCheckedToArray(row.permissions.split(','))
-    }, [])
+        try {
+            setPermissionsCheckedToArray(row.permissions.split(','))
+        } catch (err){
+            console.log(err)
+        }
+    }, [row])
 
     useEffect(_ => {
         if (row.permissions) {

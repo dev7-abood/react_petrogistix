@@ -178,7 +178,8 @@ const UsersList = () => {
                 setIsUpdate={setIsUpdate}
                 isUpdate={isUpdate}
             />
-            <Alert className={'p-1'} color='warning'>Note: Username can't update check it before make it.</Alert>
+            <Alert className={'p-1 m-0'} color='warning'>Note: Username can't update check it before make it.</Alert>
+            <Alert className={'p-1 my-1'} color='warning'>Note: Any update will send a message to the user with his new data</Alert>
             <CustomHeader
                 toggleSidebar={createToggleSidebar}
                 rowsPerPage={rowsPerPage}
