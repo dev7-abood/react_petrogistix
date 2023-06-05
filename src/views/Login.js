@@ -61,6 +61,7 @@ const Login = () => {
                 setUserId(jwt_decode(res.data.access).user_id)
                 setIsLoginError(false)
             } catch (err) {
+                console.log(err)
                 setIsLoginError(true)
             }
         })()

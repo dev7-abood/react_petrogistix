@@ -18,7 +18,7 @@ $auth-1-inner-max-width: 400px !default;
   &.auth-v1 {
     align-items: center;
     justify-content: center;
-    overflow: hidden; // For v1 scroll for long auth form
+    overflow: hidden; // For v2 scroll for long auth form
     .auth-inner {
       &:before {
         width: 244px;

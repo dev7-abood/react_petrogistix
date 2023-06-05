@@ -53,15 +53,15 @@ const Routes = [
             can: can(['QUESTIONMANAGEMENT_ADD', 'QUESTIONMANAGEMENT_EDIT'])
         }
     },
-    {
-        path: '/questions',
-        component: lazy(() => import('../../views/showQ/')),
-        meta: {
-            authRoute: false,
-            title: 'Questions',
-            can: can(['QUESTIONS_READ'])
-        }
-    },
+    // {
+    //     path: '/questions',
+    //     component: lazy(() => import('../../views/showQ/')),
+    //     meta: {
+    //         authRoute: false,
+    //         title: 'Questions',
+    //         can: can(['QUESTIONS_READ'])
+    //     }
+    // },
     {
         path: '/answers-section',
         component: lazy(() => import('../../views/evaluation/UserDatatable')),
@@ -168,7 +168,8 @@ const Routes = [
         meta: {
             authRoute: false,
             title: 'User Answers',
-            can: can(['ANSWERSECTION_READ'])
+            can: true
+            // can: can(['ANSWERSECTION_READ'])
         }
     },
     {
@@ -190,15 +191,36 @@ const Routes = [
             can: can(['EVALUATION_READ'])
         }
     },
+    // {
+    //     path: '/evaluation/:user_id',
+    //     component: lazy(() => import('../../views/evaluation/QGroupDatatable')),
+    //     meta: {
+    //         authRoute: false,
+    //         title: 'Evaluate the set of questions',
+    //         can: can(['EVALUATION_READ'])
+    //     }
+    // },
+
+    // {
+    //     path: '/evaluation/:user_id',
+    //     component: lazy(() => import('../../views/setEvaluation/V2')),
+    //     meta: {
+    //         authRoute: false,
+    //         title: 'Evaluate the set of questions',
+    //         can: can(['EVALUATION_READ'])
+    //     }
+    // },
+
     {
         path: '/evaluation/:user_id',
-        component: lazy(() => import('../../views/evaluation/QGroupDatatable')),
+        component: lazy(() => import('../../views/setEvaluation/tap')),
         meta: {
             authRoute: false,
             title: 'Evaluate the set of questions',
             can: can(['EVALUATION_READ'])
         }
     },
+
     {
         path: '/set/evaluation/:id/:user_id/:group_name',
         component: lazy(() => import('../../views/setEvaluation')),

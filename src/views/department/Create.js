@@ -1,6 +1,3 @@
-// ** React Import
-import {useState, useEffect} from 'react'
-
 // ** Custom Components
 import Sidebar from '@components/sidebar'
 

@@ -267,10 +267,10 @@ const UserAnswers = props => {
                                 </Fragment>
                             })}
                             <FormGroup>
-                                <hr/>
+                                <br/>
                             </FormGroup>
                             <FormGroup>
-                                <Button disabled={isActive} color='primary' type='submit'>Submit</Button>
+                                <Button outline disabled={isActive} color='primary' type='submit'>Save</Button>
                             </FormGroup>
                         </Form>}
 

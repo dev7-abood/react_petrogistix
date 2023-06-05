@@ -1,4 +1,5 @@
 import {useEffect, useState, Fragment} from 'react'
+import { FiAlertTriangle } from 'react-icons/fi'
 import axios from 'axios'
 import Breadcrumbs from '@components/breadcrumbs'
 import {
@@ -10,8 +11,10 @@ import {
     Row,
     Col,
     Label,
-    CustomInput
-} from 'reactstrap';
+    CustomInput,
+    Alert
+} from 'reactstrap'
+
 
 const SetEvaluation = props => {
 
@@ -101,6 +104,9 @@ const SetEvaluation = props => {
             <CardBody>
                 <p>Employee Name: {userName}</p>
                 <p>Group Name: {group_name}</p>
+                {isAnswered !== true ? <Alert color='warning' className='p-2 d-flex align-items-center'>
+                    <FiAlertTriangle size={20} />&nbsp; <p>The user has not answered the questions yet.</p>
+                </Alert> : ''}
                 <Row>
                     <Col lg={10}>
                         {isAnswered !== false ? <Form>

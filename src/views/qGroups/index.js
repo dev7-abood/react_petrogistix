@@ -87,15 +87,15 @@ const Job = _ => {
                 <MoreVertical size={14} className='cursor-pointer'/>
             </DropdownToggle>
             <DropdownMenu right>
-                <Can have={['QUESTIONMANAGEMENT_EDIT']}>
-                    <DropdownItem
-                        className='w-100'
-                        onClick={_ => history.push(`/group/permissions/${row.id}`, {row})}
-                    >
-                        <FaRegFilePowerpoint size={14} className='mr-50'/>
-                        <span className='align-middle'>Permissions</span>
-                    </DropdownItem>
-                </Can>
+                {/*<Can have={['QUESTIONMANAGEMENT_EDIT']}>*/}
+                {/*    <DropdownItem*/}
+                {/*        className='w-100'*/}
+                {/*        onClick={_ => history.push(`/group/permissions/${row.id}`, {row})}*/}
+                {/*    >*/}
+                {/*        <FaRegFilePowerpoint size={14} className='mr-50'/>*/}
+                {/*        <span className='align-middle'>Permissions</span>*/}
+                {/*    </DropdownItem>*/}
+                {/*</Can>*/}
                 <Can have={['QUESTIONMANAGEMENT_ADD']}>
                     <DropdownItem
                         className='w-100'

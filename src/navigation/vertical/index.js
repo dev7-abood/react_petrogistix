@@ -104,18 +104,18 @@ export default [
     },
     {
         id: 'QuestionManagement',
-        title: 'Question management',
+        title: 'Questions',
         icon: <BsQuestionSquare size={20}/>,
         navLink: '/group/questions',
         isHidden: !can(['QUESTIONMANAGEMENT_READ', 'QUESTIONMANAGEMENT_ADD', 'QUESTIONMANAGEMENT_EDIT', 'QUESTIONMANAGEMENT_DELETE']),
     },
-    {
-        id: 'Questions',
-        title: 'Questions',
-        icon: <CiViewTimeline size={20}/>,
-        navLink: '/questions',
-        isHidden: !can(['QUESTIONS_READ', 'QUESTIONS_ADD', 'QUESTIONS_EDIT', 'QUESTIONS_DELETE']),
-    },
+    // {
+    //     id: 'SubmitAnswers',
+    //     title: 'Submit Answers',
+    //     icon: <CiViewTimeline size={20}/>,
+    //     navLink: '/questions',
+    //     isHidden: !can(['QUESTIONS_READ', 'QUESTIONS_ADD', 'QUESTIONS_EDIT', 'QUESTIONS_DELETE']),
+    // },
     {
         id: 'Evaluation',
         title: 'Evaluation',

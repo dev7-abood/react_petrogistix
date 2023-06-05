@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import {
-    MoreVertical, FileText, Trash2, Archive, ChevronDown
+    MoreVertical, FileText, Trash2, Archive
 } from 'react-feather'
 
 
@@ -150,24 +150,32 @@ const UsersList = () => {
     }];
 
     const [offset, setOffset] = useState(1)
+    const [page, setPage] = useState(1)
     const [limit, setLimit] = useState(10)
 
     const [isUpdate, setIsUpdate] = useState(false)
+    const [count, setCount] = useState(0)
 
     useEffect(_ => {
         (async _ => {
             try {
-                const res = await axios.get(`/user/list/?limit=${limit}&offset=${offset}`)
+                const res = await axios.get(`/user/list/?limit=${limit}&page=${page}&offset=${offset}`)
                 setData(res.data.results)
+                setCount(res.data.count)
             } catch (err) {
                 console.log(err)
             }
         })()
-    }, [offset, limit, isUpdate])
+    }, [offset, limit, isUpdate, count, page, offset])
 
-    const onChangePage = page => setOffset(page)
+    const onChangePage = (page) => {
+        setPage(page)
+        setOffset(page * 2)
+    }
 
-    const onChangeRowsPerPage = rows => setLimit(rows)
+    const onChangeRowsPerPage = rows => {
+        setLimit(rows)
+    }
 
     return (<>
         <Card>
@@ -178,8 +186,8 @@ const UsersList = () => {
                 setIsUpdate={setIsUpdate}
                 isUpdate={isUpdate}
             />
-            <Alert className={'p-1 m-0'} color='warning'>Note: Username can't update check it before make it.</Alert>
-            <Alert className={'p-1 my-1'} color='warning'>Note: Any update will send a message to the user with his new data</Alert>
+            <Alert className={'p-1 mb-1'} color='warning'>Note: Username can't update check it before make it.</Alert>
+            {/*<Alert className={'p-1 my-1'} color='warning'>Note: Any update will send a message to the user with his new data</Alert>*/}
             <CustomHeader
                 toggleSidebar={createToggleSidebar}
                 rowsPerPage={rowsPerPage}
@@ -193,11 +201,11 @@ const UsersList = () => {
                 columns={columns}
                 className='react-dataTable'
                 data={data}
-                count={data.count}
-                page={data.count}
+                count={count}
+                // page={data.count}
                 onChangePage={onChangePage}
                 onChangeRowsPerPage={onChangeRowsPerPage}
-                paginationTotalRows={data.total}
+                paginationTotalRows={count}
             />
         </Card>
         <Can have={['USER_EDIT']}>
