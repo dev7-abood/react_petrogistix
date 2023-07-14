@@ -2,7 +2,7 @@ import {useSkin} from '@hooks/useSkin'
 import {Link} from 'react-router-dom'
 import * as yup from 'yup'
 import InputPasswordToggle from '@components/input-password-toggle'
-import {Row, Col, CardTitle, CardText, Form, FormGroup, Label, Input, CustomInput, Button, Alert} from 'reactstrap'
+import {Row, Col, CardTitle, Form, FormGroup, Label, Input, Button, Alert} from 'reactstrap'
 import {useForm} from 'react-hook-form'
 import {yupResolver} from '@hookform/resolvers/yup'
 import classnames from 'classnames'
@@ -58,6 +58,7 @@ const Login = () => {
                 localStorage.removeItem('user_data')
                 localStorage.setItem('access_tk', res.data.access)
                 localStorage.setItem('refresh_tk', res.data.refresh)
+                localStorage.setItem('is_first_update', false)
                 setUserId(jwt_decode(res.data.access).user_id)
                 setIsLoginError(false)
             } catch (err) {
@@ -116,25 +117,23 @@ const Login = () => {
                             />
                         </FormGroup>
                         <FormGroup>
-                            {/*<div className='d-flex justify-content-between'>*/}
-                            {/*    <Label className='form-label' for='password'>*/}
-                            {/*        Password*/}
-                            {/*    </Label>*/}
-                            {/*    <Link to='/'>*/}
-                            {/*        <small>Forgot Password?</small>*/}
-                            {/*    </Link>*/}
-                            {/*</div>*/}
-                            <Input
-                                id='password'
-                                innerRef={register({required: true})}
-                                type='password'
+                            <InputPasswordToggle
+                                label='Password'
+                                htmlFor='Password'
                                 name='password'
+                                innerRef={register({required: true})}
                                 onChange={e => setValue('password', e.target.value)}
                                 className={classnames('input-group-merge', {
-                                    'is-invalid': errors.password
+                                    'is-invalid': errors['password']
                                 })}
                             />
                         </FormGroup>
+                        {/*<div className='d-flex justify-content-between'>*/}
+                        {/*    <Link to='/'>*/}
+                        {/*        <small>Forgot Password?</small>*/}
+                        {/*    </Link>*/}
+                        {/*</div>*/}
+                        <br/>
                         <Button type='submit' color='primary' block>
                             Sign in
                         </Button>

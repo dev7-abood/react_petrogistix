@@ -23,7 +23,7 @@ const Edit = ({open, toggleSidebar, setIsUpdate, isUpdate, editData, periods}) =
     const SignupSchema = yup.object().shape({
         name: yup.string().required(),
         status: yup.number().required(),
-        period_id: yup.number().required(),
+        // period_id: yup.number().required(),
     })
 
     const {register, errors, handleSubmit, control, setValue, trigger} = useForm({
@@ -44,6 +44,17 @@ const Edit = ({open, toggleSidebar, setIsUpdate, isUpdate, editData, periods}) =
             toast.error('Something wrong ❌');
         }
     }
+
+    const [departments, setDepartments] = useState([])
+
+    useEffect(_ => {
+        (async _ => {
+            try {
+                const res = await axios.get(`/department/get_departments/`)
+                setDepartments(res.data.data)
+            } catch (err) {}
+        })()
+    }, [])
 
     return (
         <Sidebar
@@ -76,8 +87,27 @@ const Edit = ({open, toggleSidebar, setIsUpdate, isUpdate, editData, periods}) =
                         className={classnames({'is-invalid': errors['period_id']})}
                         defaultValue={editData.period_id}
                     >
+                        <option value='0'>-</option>
                         {periods.map((el, index) => {
                             return <option key={index} value={el.id}>{el.title}</option>
+                        })}
+                    </Input>
+                </FormGroup>
+                <FormGroup className='mb-2'>
+                    <Label for='department'>Departments</Label>
+                    <Input
+                        required
+                        multiple
+                        type='select'
+                        name='department'
+                        id='department'
+                        innerRef={register({required: true})}
+                        className={classnames({'is-invalid': errors['department']})}
+                        defaultValue={editData.default_departments}
+                    >
+                        {/*<option value='-'>-</option>*/}
+                        {departments.map((el, index) => {
+                            return <option key={index} value={el.value}>{el.label}</option>
                         })}
                     </Input>
                 </FormGroup>

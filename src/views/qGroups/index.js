@@ -74,9 +74,7 @@ const Job = _ => {
     const columns = [{
         name: 'Group Name', selector: row => row.name,
     }, {
-        name: 'Period', selector: row => row.period !== null ? row.period : '-',
-    }, {
-        name: 'Subgroup Name', selector: row => row.sub_group !== null ? row.sub_group : '-',
+        name: 'Period', selector: row => row.period !== null ? row.period.title : '-',
     }, {
         name: 'Status',
         selector: row => row.status === 1 ? <span className='text-success'>Active</span> :

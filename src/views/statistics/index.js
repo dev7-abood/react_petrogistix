@@ -1,29 +1,41 @@
 import {Card, CardBody, Row, Col, CustomInput, Input} from 'reactstrap'
 import {useEffect, useState} from 'react'
-import DataTable from 'react-data-table-component';
+import DataTable from 'react-data-table-component'
+import BreadcrumbsDefault from "./BreadcrumbsDefault"
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 import axios from 'axios'
 
 const Statistics = props => {
 
-    const {userName} = props
-    const {userId} = props
-    const {rating} = props
-    const {isUpdated} = props
+    const {user_id} = props.match.params
 
     const [data, setData] = useState([])
+    const [name, setName] = useState('')
+    const [rating, setRating] = useState('0%')
 
     useEffect(_ => {
         (async _ => {
             try {
-                const res = await axios.get(`/evaluation/get_group_evaluation/${userId}/`)
+                const res = await axios.get(`/evaluation/get_group_evaluation/${user_id}/`)
                 setData(res.data.data)
             } catch (err) {
 
             }
         })()
-    }, [isUpdated])
+    }, [])
+
+    useEffect(_ => {
+        (async _ => {
+            try {
+                const res = await axios.get(`/user/get_user_info/?user_id=${user_id}`)
+                setName(`${res.data.data.first_name} ${res.data.data.last_name}`)
+                setRating(res.data.data.rating)
+            } catch (err) {
+
+            }
+        })()
+    }, [])
 
     const columns = [{
         name: 'Group name', selector: row => row.name,
@@ -40,7 +52,7 @@ const Statistics = props => {
         useEffect(_ => {
             (async _ => {
                 try {
-                    const res = await axios.get(`/evaluation/get_evl_questions/${data.id}/${userId}/`)
+                    const res = await axios.get(`/evaluation/get_evl_questions/${data.id}/${user_id}/`)
                     setCustomData(res.data.data)
                     console.log(res.data.data)
                 } catch (err) {
@@ -140,25 +152,32 @@ const Statistics = props => {
     }
 
 
-    return (<Card>
-        <CardBody>
-            <div className='mb-2'>
-                <p><strong>Employee Name: {userName}</strong></p>
-                <p><strong>Total user rating: {rating}</strong></p>
+    return (
+        <div>
+            <div className='mb-1 d-flex'>
+                <h2 className='mr-1'>Results</h2>
+                <BreadcrumbsDefault/>
             </div>
-            <div>
-                <DataTable
-                    noHeader
-                    columns={columns}
-                    data={data}
-                    className='react-dataTable'
-                    expandableRows
-                    // expandableRowExpanded={row => row.defaultExpanded}
-                    expandableRowsComponent={<Expanded/>}
-                />
-            </div>
-        </CardBody>
-    </Card>)
+            <Card>
+                <CardBody>
+                    <div className='mb-2'>
+                        <p><strong>Employee Name: {name}</strong></p>
+                        <p><strong>Total user rating: {rating}</strong></p>
+                    </div>
+                    <div>
+                        <DataTable
+                            noHeader
+                            columns={columns}
+                            data={data}
+                            className='react-dataTable'
+                            expandableRows
+                            // expandableRowExpanded={row => row.defaultExpanded}
+                            expandableRowsComponent={<Expanded/>}
+                        />
+                    </div>
+                </CardBody>
+            </Card>
+        </div>)
 }
 
 export default Statistics

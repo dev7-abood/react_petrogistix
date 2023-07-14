@@ -8,11 +8,9 @@ import {
     Card
 } from 'reactstrap'
 
-
 import {
-    MoreVertical, Download, ChevronDown, Eye
+    MoreVertical, ChevronDown, Eye
 } from 'react-feather'
-
 
 import '../../table-style.css'
 import '@styles/react/libs/tables/react-dataTable-component.scss'

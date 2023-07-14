@@ -31,6 +31,7 @@ const CreateForm = ({open, toggleSidebar, setIsUpdate, isUpdate}) => {
 
     const [jobs, setJobs] = useState([])
     const [departments, setDepartment] = useState([])
+    const [reErrors, setResErrors] = useState({})
 
     useEffect(_ => {
         (async _ => {
@@ -54,24 +55,41 @@ const CreateForm = ({open, toggleSidebar, setIsUpdate, isUpdate}) => {
         })()
     }, [])
 
+    useEffect(_ => {
+        if (reErrors.username !== undefined) {
+            errors.username = reErrors.username[0]
+        }
+
+        if (reErrors.email !== undefined) {
+            errors.email = reErrors.email[0]
+        }
+
+    }, [reErrors])
+
     const onSubmit = async data => {
         trigger()
         setIsUpdate(!isUpdate)
         try {
-            await axios.post('/user/create/', data, {
+            const res = await axios.post('/user/create/', data, {
                 headers: {
                     Accept: 'application/json'
                 }
             })
-            toast.success('The user has been registered successfully ✔');
+            toast.success('The user has been registered successfully ✔')
+            setIsUpdate(false)
             setTimeout(_ => {
                 setIsUpdate(false)
-            }, 1000)
+                location.href = `user/permissions/${res.data.id}`
+            }, 1800)
         } catch (err) {
+            setIsUpdate(false)
+            setResErrors(err.response.data)
             toast.error('Something wrong ❌');
+            // setTimeout(_ => {
+            //     location.reload()
+            // }, 1800)
         }
     }
-
 
     return (
         <Sidebar
@@ -84,6 +102,7 @@ const CreateForm = ({open, toggleSidebar, setIsUpdate, isUpdate}) => {
         >
             <Form action='/' className='auth-register-form mt-2' onSubmit={handleSubmit(onSubmit)}>
                 <FormGroup>
+                    {errors['email'] ? <p className='text-danger mt-1'>{errors['email']}</p> : ''}
                     <Label for='email'>
                         Email <span className='text-danger'>*</span>
                     </Label>
@@ -97,6 +116,7 @@ const CreateForm = ({open, toggleSidebar, setIsUpdate, isUpdate}) => {
                     />
                 </FormGroup>
                 <FormGroup>
+                    {errors['username'] ? <p className='text-danger mt-1'>{errors['username']}</p> : ''}
                     <Label for='username'>
                         Username <span className='text-danger'>*</span>
                     </Label>
@@ -133,8 +153,9 @@ const CreateForm = ({open, toggleSidebar, setIsUpdate, isUpdate}) => {
                     />
                 </FormGroup>
                 <FormGroup>
-                    <Label htmlFor='job'>Job</Label>
+                    <Label htmlFor='job'>Job <span className='text-danger'>*</span></Label>
                     <Input
+                        required
                         type='select'
                         name='job'
                         id='job'
@@ -147,10 +168,10 @@ const CreateForm = ({open, toggleSidebar, setIsUpdate, isUpdate}) => {
                     </Input>
                 </FormGroup>
                 <FormGroup>
-                    <Label htmlFor='Departments'>Departments</Label>
+                    <Label htmlFor='Departments'>Departments <span className='text-danger'>*</span></Label>
                     <Input
-                        multiple
                         required
+                        multiple
                         type='select'
                         name='departments'
                         id='departments'

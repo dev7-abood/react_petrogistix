@@ -18,31 +18,14 @@ import axios from 'axios'
 
 // ** Store & Actions
 
-const Edit = ({open, toggleSidebar, editData, setIsUpdate, isUpdate, departments}) => {
-
-    const [defaultDepartment, setDefaultDepartment] = useState([])
-
-    useEffect(_ => {
-        if (editData.id) {
-            (async _ => {
-                try {
-                    const ids = []
-                    const res = await axios.get(`department/get_sub_departments/${editData.id}/`)
-                    res.data.data.map(el => ids.push(el.id))
-                    setDefaultDepartment(ids)
-                } catch (err) {
-
-                }
-            })()
-        }
-    }, [editData])
+const Edit = ({open, toggleSidebar, editData, setIsUpdate, isUpdate}) => {
 
     const SignupSchema = yup.object().shape({
         name: yup.string().required(),
         status: yup.number().required()
     })
 
-    const {register, errors, handleSubmit, control, setValue, trigger} = useForm({
+    const {register, errors, handleSubmit, trigger} = useForm({
         resolver: yupResolver(SignupSchema)
     })
 
@@ -85,22 +68,6 @@ const Edit = ({open, toggleSidebar, editData, setIsUpdate, isUpdate, departments
                         innerRef={register({required: true})}
                         className={classnames({'is-invalid': errors['name']})}
                     />
-                </FormGroup>
-                <FormGroup className='' multiple>
-                    <Label for='sub_department'>Sub Department</Label>
-                    <Input type='select'
-                           id='sub_department'
-                           name='sub_department[]'
-                           multiple
-                           innerRef={register({required: true})}
-                           className={classnames({'is-invalid': errors['sub_department']})}
-                           defaultValue={defaultDepartment}
-                    >
-                        {departments.map((el, index) => {
-                            return <option key={index} value={el.id}>{el.name}</option>
-                        })}
-                    </Input>
-                    <small>Hold [ctrl] and select</small>
                 </FormGroup>
                 <FormGroup>
                     <Label for='first_name'>

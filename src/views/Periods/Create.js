@@ -22,17 +22,22 @@ const Create = ({open, toggleSidebar, setIsUpdate, isUpdate}) => {
 
     const SignupSchema = yup.object().shape({
         title: yup.string().required(),
-        status: yup.number().required(),
+        // status: yup.number().required(),
     })
 
-    const {register, errors, handleSubmit, control, setValue, trigger} = useForm({
+    const {register, errors, handleSubmit, trigger} = useForm({
         resolver: yupResolver(SignupSchema)
     })
 
+    const [closeTimestamp, setCloseTimestamp] = useState(null)
+    const [startTimestamp, setStartTimestamp] = useState(null)
     const onSubmit = async data => {
         trigger()
         try {
-            await axios.post('/period/create_period/', data, {
+            await axios.post('/period/create_period/', {...data,
+                close_timestamp: closeTimestamp,
+                start_timestamp: startTimestamp
+            }, {
                 headers: {
                     Accept: 'application/json'
                 }
@@ -40,7 +45,7 @@ const Create = ({open, toggleSidebar, setIsUpdate, isUpdate}) => {
             setIsUpdate(!isUpdate)
             toast.success('Questions Group add successfully ✔');
         } catch (err) {
-            toast.error('Something wrong ❌');
+            toast.error(`${err.response.data.msg} ❌`);
         }
     }
 
@@ -72,19 +77,37 @@ const Create = ({open, toggleSidebar, setIsUpdate, isUpdate}) => {
                     />
                 </FormGroup>
 
-                <FormGroup className='mb-2'>
-                    <Label for='status'>Status</Label>
+                <FormGroup>
+                    <Label for='start_timestamp'>Start time</Label>
                     <Input
-                        type='select'
-                        name='status'
-                        id='status'
-                        innerRef={register({required: true})}
-                        className={classnames({'is-invalid': errors['status']})}
-                    >
-                        <option value='1'>Active</option>
-                        <option value='0'>Disabled</option>
-                    </Input>
+                        id='start_timestamp'
+                        type='datetime-local'
+                        onChange={e => setStartTimestamp(e.target.value)}
+                    />
                 </FormGroup>
+
+                <FormGroup>
+                    <Label for='close_timestamp'>Close time</Label>
+                    <Input
+                        id='close_timestamp'
+                        type='datetime-local'
+                        onChange={e => setCloseTimestamp(e.target.value)}
+                    />
+                </FormGroup>
+
+                {/*<FormGroup className='mb-2'>*/}
+                {/*    <Label for='status'>Status</Label>*/}
+                {/*    <Input*/}
+                {/*        type='select'*/}
+                {/*        name='status'*/}
+                {/*        id='status'*/}
+                {/*        innerRef={register({required: true})}*/}
+                {/*        className={classnames({'is-invalid': errors['status']})}*/}
+                {/*    >*/}
+                {/*        <option value='1'>Active</option>*/}
+                {/*        <option value='0'>Disabled</option>*/}
+                {/*    </Input>*/}
+                {/*</FormGroup>*/}
                 <Button type='submit' className='mr-1' color='primary'>
                     Submit
                 </Button>

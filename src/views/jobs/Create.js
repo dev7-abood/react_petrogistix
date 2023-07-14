@@ -23,8 +23,7 @@ const Create = ({open, toggleSidebar, setIsUpdate, isUpdate, departments}) => {
     const SignupSchema = yup.object().shape({
         name: yup.string().required(),
         status: yup.number().required(),
-        evaluation: yup.number().required(),
-        department_id: yup.number().required(),
+        // department_id: yup.number().required(),
     })
 
     const {register, errors, handleSubmit, control, setValue, trigger} = useForm({
@@ -66,34 +65,19 @@ const Create = ({open, toggleSidebar, setIsUpdate, isUpdate, departments}) => {
                         className={classnames({'is-invalid': errors['name']})}
                     />
                 </FormGroup>
-                <FormGroup>
-                    <Label for='department'>Blong to<span className='text-danger'>*</span></Label>
-                    <Input type='select'
-                           id='department_id'
-                           name='department_id'
-                           innerRef={register({required: true})}
-                           className={classnames({'is-invalid': errors['department_id']})}
-                    >
-                        {departments.map((el, index) => {
-                            return <option key={index} value={el.id}>{el.name}</option>
-                        })}
-                    </Input>
-                </FormGroup>
-
-                <FormGroup className='mb-2'>
-                    <Label for='evaluation'>Evaluation feature</Label>
-                    <Input
-                        type='select'
-                        id='evaluation'
-                        name='evaluation'
-                        innerRef={register({required: true})}
-                        className={classnames({'is-invalid': errors['evaluation']})}
-
-                    >
-                        <option value='1'>Can</option>
-                        <option value='0'>Can't</option>
-                    </Input>
-                </FormGroup>
+                {/*<FormGroup>*/}
+                {/*    <Label for='department'>Blong to<span className='text-danger'>*</span></Label>*/}
+                {/*    <Input type='select'*/}
+                {/*           id='department_id'*/}
+                {/*           name='department_id'*/}
+                {/*           innerRef={register({required: true})}*/}
+                {/*           className={classnames({'is-invalid': errors['department_id']})}*/}
+                {/*    >*/}
+                {/*        {departments.map((el, index) => {*/}
+                {/*            return <option key={index} value={el.id}>{el.name}</option>*/}
+                {/*        })}*/}
+                {/*    </Input>*/}
+                {/*</FormGroup>*/}
 
                 <FormGroup className='mb-2'>
                     <Label for='status'>Status</Label>

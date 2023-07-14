@@ -7,7 +7,7 @@ import {Button, Card, CardBody} from 'reactstrap';
 
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
-import UserDatatable from "./UserDatatable";
+import SubmitDatatable from "./SubmitDatatable";
 import Breadcrumbs from '@components/breadcrumbs'
 
 const QGroupDatatable = props => {

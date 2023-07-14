@@ -34,6 +34,8 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 import DeleteAlertModal from "@c/DeleteAlertModal";
 import Can from "@c/Can";
 
+import './style.css'
+
 // ** Table Header
 const CustomHeader = ({toggleSidebar, handlePerPage, rowsPerPage, handleFilter, searchTerm}) => {
 
@@ -59,9 +61,7 @@ const UsersList = () => {
     // ** Store Vars
 
     // ** States
-    const [userIdSelected, setUserIdSelected] = useState(null)
     const [searchTerm, setSearchTerm] = useState('')
-    const [currentPage, setCurrentPage] = useState(1)
     const [rowsPerPage, setRowsPerPage] = useState(10)
     const [createSidebarOpen, setCreateSidebarOpen] = useState(false)
     const [editSidebarOpen, setEditSidebarOpen] = useState(false)
@@ -74,23 +74,6 @@ const UsersList = () => {
     const createToggleSidebar = () => setCreateSidebarOpen(!createSidebarOpen)
     const editToggleSidebar = () => setEditSidebarOpen(!editSidebarOpen)
 
-    const [userDefaultJobAndDepartmentsData, setUserDefaultJobAndDepartmentsData] = useState({
-        job_id: 1,
-        departments: []
-    })
-    useEffect(_ => {
-        if (userIdSelected) {
-            (async _ => {
-                try {
-                    const res = await axios.get(`/user/get_have_jobs_and_departments/${userIdSelected}/`)
-                    setUserDefaultJobAndDepartmentsData(res.data.data)
-                } catch (err) {
-
-                }
-            })()
-        }
-    }, [userIdSelected])
-
     const [data, setData] = useState([])
 
     const columns = [{
@@ -100,6 +83,10 @@ const UsersList = () => {
     }, {
         name: 'Last Name', selector: row => row.last_name,
     }, {
+        name: 'Job', selector: row => row.job.job_name,
+    }, {
+        name: 'Departments', selector: row => <div title={row.departments.department_names}>{row.departments.department_names}</div>,
+    }, {
         name: 'Actions', minWidth: '100px', cell: row => (<UncontrolledDropdown>
             <DropdownToggle tag='div' className='btn btn-sm'>
                 <MoreVertical size={14} className='cursor-pointer'/>
@@ -107,8 +94,9 @@ const UsersList = () => {
             <DropdownMenu right>
                 <Can have={['USER_EDIT']}>
                     <DropdownItem
-                        tag={Link}
-                        to={`/user/permissions/${row.id}`}
+                        onClick={_ => {
+                            location.href = `/user/permissions/${row.id}`
+                        }}
                         className='w-100'
                     >
                         <FileText size={14} className='mr-50'/>
@@ -117,16 +105,10 @@ const UsersList = () => {
                 </Can>
                 <Can have={['USER_EDIT']}>
                     <DropdownItem
-
                         onClick={_ => {
                             setEditFormData(row)
-                            setUserIdSelected(row.id)
-                            setTimeout(_ => {
-                                editToggleSidebar()
-                            }, 1000)
+                            editToggleSidebar()
                         }}
-                        // tag={Link}
-                        // to={`/apps/user/edit/${row.id}`}
                         className='w-100'
                     >
                         <Archive size={14} className='mr-50'/>
@@ -149,32 +131,50 @@ const UsersList = () => {
         </UncontrolledDropdown>)
     }];
 
-    const [offset, setOffset] = useState(1)
-    const [page, setPage] = useState(1)
-    const [limit, setLimit] = useState(10)
-
     const [isUpdate, setIsUpdate] = useState(false)
     const [count, setCount] = useState(0)
+    const [prevLink, setPrevLink] = useState('')
+    const [nextLink, setNextLink] = useState('')
+    const [link, setLink] = useState(`/user/list/?limit=10`)
 
     useEffect(_ => {
         (async _ => {
             try {
-                const res = await axios.get(`/user/list/?limit=${limit}&page=${page}&offset=${offset}`)
-                setData(res.data.results)
+                const res = await axios.get(link)
+                setNextLink(res.data.next)
                 setCount(res.data.count)
+                setPrevLink(res.data.previous)
+                setData(res.data.results)
             } catch (err) {
                 console.log(err)
             }
         })()
-    }, [offset, limit, isUpdate, count, page, offset])
+    }, [isUpdate, link, prevLink, nextLink])
 
-    const onChangePage = (page) => {
-        setPage(page)
-        setOffset(page * 2)
-    }
 
-    const onChangeRowsPerPage = rows => {
-        setLimit(rows)
+    const CustomMaterialPagination = _ => {
+        const previous = _ => setLink(prevLink)
+        const next = _ => setLink(nextLink)
+
+        return (<>
+            <div className='d-flex justify-content-between mx-2 my-1'>
+                <div>
+                    Total records: <strong>{count}</strong>
+                </div>
+                <div className='d-flex justify-content-end align-items-center mx-2'>
+                    <nav aria-label="Page navigation">
+                        <ul className="pagination">
+                            <li onClick={previous} className="page-item user-select-none">
+                                <button className="page-link">Previous</button>
+                            </li>
+                            <li onClick={next} className="page-item user-select-none">
+                                <button className="page-link">Next</button>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </>)
     }
 
     return (<>
@@ -187,7 +187,6 @@ const UsersList = () => {
                 isUpdate={isUpdate}
             />
             <Alert className={'p-1 mb-1'} color='warning'>Note: Username can't update check it before make it.</Alert>
-            {/*<Alert className={'p-1 my-1'} color='warning'>Note: Any update will send a message to the user with his new data</Alert>*/}
             <CustomHeader
                 toggleSidebar={createToggleSidebar}
                 rowsPerPage={rowsPerPage}
@@ -202,14 +201,14 @@ const UsersList = () => {
                 className='react-dataTable'
                 data={data}
                 count={count}
-                // page={data.count}
-                onChangePage={onChangePage}
-                onChangeRowsPerPage={onChangeRowsPerPage}
                 paginationTotalRows={count}
+                paginationComponent={CustomMaterialPagination}
             />
         </Card>
         <Can have={['USER_EDIT']}>
-            <EditForm data={editFormData} userDefaultJobAndDepartmentsData={userDefaultJobAndDepartmentsData} open={editSidebarOpen} toggleSidebar={editToggleSidebar}/>
+            <EditForm data={editFormData}
+                      open={editSidebarOpen}
+                      toggleSidebar={editToggleSidebar}/>
         </Can>
         <Can have={['USER_ADD']}>
             <CreateForm

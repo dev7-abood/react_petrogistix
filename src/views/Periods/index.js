@@ -14,6 +14,8 @@ import axios from 'axios'
 import Breadcrumbs from '@components/breadcrumbs';
 import DeleteAlertModal from "@c/DeleteAlertModal";
 import Can from '@c/Can'
+import dateFormat, {masks} from "dateformat";
+
 const Periods = _ => {
 
     const [isUpdate, setIsUpdate] = useState(true)
@@ -47,9 +49,11 @@ const Periods = _ => {
     const columns = [{
         name: 'Period Name', selector: row => row.title,
     }, {
-        name: 'Status',
-        selector: row => row.status === 1 ? <span className='text-success'>Active</span> :
-            <span className='text-danger'>Disabled</span>,
+        name: 'Start time',
+        selector: row => row.start_timestamp !== null ? dateFormat(row.start_timestamp, "UTC:dd/mmm/yyyy, hh:MM TT") : '-',
+    }, {
+        name: 'Close time',
+        selector: row => row.close_timestamp !== null ? dateFormat(row.close_timestamp, "UTC:dd/mmm/yyyy, hh:MM TT") : '-',
     }, {
         name: 'Actions', minWidth: '100px', cell: row => (<UncontrolledDropdown direction={'down'}>
             <DropdownToggle tag='div' className='btn btn-sm'>

@@ -62,33 +62,6 @@ export default [
         ]
     },
     {
-        id: 'settings',
-        title: 'settings',
-        icon: <Settings size={20}/>,
-        navLink: '/settings',
-        isHidden: !can(['SETTINGS_READ', 'SETTINGS_ADD', 'SETTINGS_EDIT', 'SETTINGS_DELETE']),
-        children: [
-            {
-                id: 'siteName',
-                title: 'Site name',
-                icon: <Circle/>,
-                navLink: '/settings/site-name'
-            },
-            {
-                id: 'logo',
-                title: 'Logo',
-                icon: <Circle/>,
-                navLink: '/settings/logo'
-            },
-            {
-                id: 'favicon',
-                title: 'Favicon',
-                icon: <Circle/>,
-                navLink: '/settings/favicon'
-            }
-        ]
-    },
-    {
         id: 'departments',
         title: 'Departments',
         icon: <BsBuildings size={20}/>,
@@ -129,5 +102,32 @@ export default [
         icon: <BiTimeFive size={20}/>,
         navLink: '/periods',
         isHidden: !can(['PERIODS_READ', 'PERIODS_ADD', 'PERIODS_EDIT', 'PERIODS_DELETE']),
+    },
+    {
+        id: 'settings',
+        title: 'settings',
+        icon: <Settings size={20}/>,
+        navLink: '/settings',
+        isHidden: !can(['SETTINGS_READ', 'SETTINGS_ADD', 'SETTINGS_EDIT', 'SETTINGS_DELETE']),
+        children: [
+            {
+                id: 'siteName',
+                title: 'Site name',
+                icon: <Circle/>,
+                navLink: '/settings/site-name'
+            },
+            {
+                id: 'logo',
+                title: 'Logo',
+                icon: <Circle/>,
+                navLink: '/settings/logo'
+            },
+            {
+                id: 'favicon',
+                title: 'Favicon',
+                icon: <Circle/>,
+                navLink: '/settings/favicon'
+            }
+        ]
     },
 ]

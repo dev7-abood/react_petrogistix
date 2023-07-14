@@ -23,7 +23,7 @@ const Create = ({open, toggleSidebar, setIsUpdate, isUpdate, periods}) => {
     const SignupSchema = yup.object().shape({
         name: yup.string().required(),
         status: yup.number().required(),
-        period_id: yup.number().required(),
+        // period_id: yup.number().required(),
     })
 
     const {register, errors, handleSubmit, control, setValue, trigger} = useForm({
@@ -44,6 +44,17 @@ const Create = ({open, toggleSidebar, setIsUpdate, isUpdate, periods}) => {
             toast.error('Something wrong ❌');
         }
     }
+
+    const [departments, setDepartments] = useState([])
+
+    useEffect(_ => {
+        (async _ => {
+           try {
+               const res = await axios.get(`/department/get_departments/`)
+               setDepartments(res.data.data)
+           } catch (err) {}
+        })()
+    }, [])
 
     return (
         <Sidebar
@@ -74,11 +85,31 @@ const Create = ({open, toggleSidebar, setIsUpdate, isUpdate, periods}) => {
                         innerRef={register({required: true})}
                         className={classnames({'is-invalid': errors['period_id']})}
                     >
+                        <option value=''>-</option>
                         {periods.map((el, index) => {
                             return <option key={index} value={el.id}>{el.title}</option>
                         })}
                     </Input>
                 </FormGroup>
+
+                <FormGroup className='mb-2'>
+                    <Label for='department'>Departments</Label>
+                    <Input
+                        required
+                        multiple
+                        type='select'
+                        name='department'
+                        id='department'
+                        innerRef={register({required: true})}
+                        className={classnames({'is-invalid': errors['department']})}
+                    >
+                        {/*<option value='0'>-</option>*/}
+                        {departments.map((el, index) => {
+                            return <option key={index} value={el.value}>{el.label}</option>
+                        })}
+                    </Input>
+                </FormGroup>
+
                 <FormGroup className='mb-2'>
                     <Label for='status'>Status</Label>
                     <Input
@@ -92,6 +123,7 @@ const Create = ({open, toggleSidebar, setIsUpdate, isUpdate, periods}) => {
                         <option value='0'>Disabled</option>
                     </Input>
                 </FormGroup>
+
                 <Button type='submit' className='mr-1' color='primary'>
                     Submit
                 </Button>

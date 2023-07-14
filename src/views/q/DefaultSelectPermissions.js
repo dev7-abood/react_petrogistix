@@ -22,10 +22,10 @@ const DefaultSelectPermissions = props => {
             {defaultValue.length !== 0 ? <Select
                 isMulti
                 id='permissions'
-                placeholder={'Select Permissions...'}
+                placeholder={'Permissions...'}
                 className="basic-multi-select"
                 classNamePrefix="select"
-                options={labelAndValue}
+                options={labelAndValue.reverse()}
                 defaultValue={defaultValue}
                 onChange={val => {
                     const doc = document.getElementById(`permissions[${index}]`)

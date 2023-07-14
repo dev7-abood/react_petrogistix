@@ -17,7 +17,8 @@ const NewInput = ({
                       removeIds,
                       setRemoveIds,
                       labelAndValue,
-                      isNew
+                      isNew,
+                      isUpdated,
                   }) => {
 
     const [visible, setVisible] = useState(true)
@@ -25,7 +26,7 @@ const NewInput = ({
 
     useEffect(_ => {
         setQuestionType(row.question_type)
-    }, [row])
+    }, [row, isUpdated])
 
     const [permissionsCheckedToArray, setPermissionsCheckedToArray] = useState([])
     const [permissionsDefaultSelected, setPermissionsDefaultSelected] = useState([])
@@ -68,11 +69,11 @@ const NewInput = ({
                 type='hidden'
                 defaultValue={row.id}
             />
-            <Row className={'d-flex align-items-center'}>
-                <Col lg={3}>
+            <Row className={'d-flex'}>
+                <Col lg={6}>
                     <FormGroup>
                         <Label for={`title_${index}`}>
-                            Title <span className='text-danger'>*</span>
+                           English Title <span className='text-danger'>*</span>
                         </Label>
                         <Input
                             required
@@ -82,10 +83,30 @@ const NewInput = ({
                             innerRef={register({required: true})}
                             className={classnames({'is-invalid': errors[`title[${index}]`]})}
                             defaultValue={row.title}
+                            autoComplete={'false'}
+
                         />
                     </FormGroup>
                 </Col>
-                <Col lg={2}>
+                <Col lg={6}>
+                    <FormGroup>
+                        <Label for={`title_${index}`}>
+                           Arabic Title <span className='text-danger'>*</span>
+                        </Label>
+                        <Input
+                            required
+                            name={`ar_title[${index}]`}
+                            id={`ar_title_${index}`}
+                            placeholder='ماذا عن ...؟'
+                            innerRef={register({required: true})}
+                            className={classnames({'is-invalid': errors[`ar_title[${index}]`]})}
+                            defaultValue={row.ar_title}
+                            style={{direction: 'rtl'}}
+                            autoComplete={'false'}
+                        />
+                    </FormGroup>
+                </Col>
+                <Col lg={3}>
                     <FormGroup className='mb-2'>
                         <Label for={`question_type_${index}`}>Question Type</Label>
                         <Input
@@ -103,9 +124,7 @@ const NewInput = ({
                         </Input>
                     </FormGroup>
                 </Col>
-                <Col lg={1} className={classnames('', {
-                    'd-none': questionType === 'multiple'
-                })}>
+                <Col lg={3}>
                     <FormGroup>
                         <Label for={`number_of_words_${index}`}>
                             # of words <span className='text-danger'>*</span>
@@ -117,10 +136,11 @@ const NewInput = ({
                             innerRef={register({required: true})}
                             className={classnames({'is-invalid': errors[`number_of_words_${index}`]})}
                             defaultValue={row.number_of_words}
+                            readOnly={questionType === 'multiple'}
                         />
                     </FormGroup>
                 </Col>
-                <Col lg={3}>
+                <Col lg={4} className='align-self-center'>
                     <FormGroup>
                         <div className='position-relative'>
                             <Input
@@ -146,7 +166,7 @@ const NewInput = ({
                         </div>
                     </FormGroup>
                 </Col>
-                <Col lg={1}>
+                <Col lg={2} className={'align-self-center'}>
                     <Button onClick={_ => {
                         setIdsDeleteRecord([...idsDeleteRecord, row.id])
                         onRemove()

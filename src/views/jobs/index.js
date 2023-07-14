@@ -87,15 +87,9 @@ const Job = _ => {
     const columns = [{
         name: 'Job Name', selector: row => row.name,
     }, {
-        name: 'Department', selector: row => row.department,
-    }, {
         name: 'Status',
         selector: row => row.status === 1 ? <span className='text-success'>Active</span> :
             <span className='text-danger'>Disabled</span>,
-    }, {
-        name: 'Evaluation',
-        selector: row => row.evaluation === 1 ? <span className='text-success'>Can</span> :
-            <span className='text-danger'>Can't</span>,
     }, {
         name: 'Priority', selector: row => <Can have={['JOB_EDIT']}><Input onChange={e => onChangePriority(row.id, row.priority, e.target.value)}
                                                   defaultValue={row.priority} type='select'>
